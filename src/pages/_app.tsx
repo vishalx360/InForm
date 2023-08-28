@@ -1,9 +1,11 @@
-import { Toaster } from "@/components/ui/toaster";
+import { theme } from "@/lib/theme";
 import "@/styles/globals.css";
 import { api } from "@/utils/api";
+import { ChakraProvider } from '@chakra-ui/react';
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
+import Head from "next/head";
 import NextNprogress from "nextjs-progressbar";
 import { MdArrowUpward } from "react-icons/md";
 import ScrollToTop from "react-scroll-to-top";
@@ -14,14 +16,18 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
-      <Toaster />
+      <Head>
+        <title>InForm</title>
+      </Head>
       <NextNprogress
         color="#424242"
         startPosition={0.3}
         stopDelayMs={200}
         height={3}
       />
-      <Component {...pageProps} />
+      <ChakraProvider resetCSS theme={theme}>
+        <Component {...pageProps} />
+      </ChakraProvider>
       <ScrollToTop
         component={<ScrollToTopButton />}
         smooth
