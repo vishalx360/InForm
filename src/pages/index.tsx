@@ -7,10 +7,10 @@ export default function Home({ session }: { session: Session }) {
   return (
     <>
       <Head>
-        <title>InForm</title>
+        <title>InForm | Home</title>
         <meta
           name="description"
-          content="Solution for Full Stack Developer Assignment"
+          content="Manage Forms"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

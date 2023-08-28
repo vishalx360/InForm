@@ -6,7 +6,7 @@ import { getSession } from "next-auth/react";
 function Dashboard() {
   return (
     <DashboardLayout>
-      <section className=" container py-10">
+      <section className="container py-10">
         <DiscoverGrid type="NOWPLAYING" />
         <DiscoverGrid type="UPCOMING" />
         <DiscoverGrid type="POPULAR" />

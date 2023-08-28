@@ -1,35 +1,49 @@
-import { Field, Form, Formik, type FieldProps } from "formik";
-import { motion } from "framer-motion";
-import { ExternalLinkIcon, LucideArrowLeft } from "lucide-react";
 import { type GetServerSidePropsContext } from "next";
 import { getSession, signIn } from "next-auth/react";
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import { FaGithub } from "react-icons/fa";
+
+
+import {
+  Box,
+  Button,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Stack,
+  Text,
+  useColorModeValue
+} from '@chakra-ui/react';
+
+import { SignUpSchema } from "@/utils/ValidationSchema";
+import { useToast } from '@chakra-ui/react';
+import { Field, Form, Formik, type FieldProps } from "formik";
+import { LucideArrowRight } from "lucide-react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
-import PasswordInput from "@/components/PasswordInput";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { SignUpSchema } from "@/utils/ValidationSchema";
 import { api } from "@/utils/api";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import Link from "next/link";
+import Head from "next/head";
 
-export default function SignInPage() {
+
+export default function SimpleCard() {
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
   const router = useRouter();
-  const { toast } = useToast();
 
   const mutation = api.authentication.signup.useMutation({
     onError(error) {
       toast({
-        variant: "destructive",
+        status: "error",
         title: error.message || "Uh oh! Something went wrong.",
         description: "There was a problem with your request.",
-        // action: <ToastAction altText="Try again">Try again</ToastAction>,
       });
     },
     onSuccess: async () => {
-      toast({ title: "Account created successfully!" });
+      toast({ title: "Account created successfully!", status: "success" });
       await router.push("/signin").catch((err) => console.log(err));
     },
   });
@@ -38,148 +52,131 @@ export default function SignInPage() {
     await signIn(provider);
   }
   return (
-    <>
+    <Flex
+      minH={'100vh'}
+      align={'center'}
+      justify={'center'}
+      bg={useColorModeValue('gray.50', 'gray.800')}>
       <Head>
-        <title>InForm | Sign-up</title>
+        <title>InForm | Sign up</title>
       </Head>
-      <section className="bg-neutral-100 dark:bg-neutral-900">
-        <div className="mx-auto flex h-screen flex-col items-center justify-center px-6 py-8 lg:py-0">
-          <motion.div className="flex items-center  gap-5" layoutId="header">
-            <Link
-              href="/"
-              className="flex items-center gap-5 rounded-full border-neutral-400 p-2 transition duration-200 ease-in-out hover:bg-neutral-500/20 "
-            >
-              <LucideArrowLeft className="text-2xl" />
-            </Link>
-            <div className="my-10  flex flex-col items-center ">
-              <p className="text-3xl">InForm</p>
-              <Link
-                href={"https://github.com/vishalx360/inform"}
-                className={
-                  "text-md flex items-center py-2 pl-3 pr-4 underline-offset-2  hover:underline "
-                }
-                target="_blank"
-                aria-current="page"
-              >
-                Github Repo
-                <ExternalLinkIcon className="ml-1 inline h-4 w-4" />
-              </Link>
-            </div>{" "}
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "anticipate" }}
-            className="w-full rounded-xl bg-white shadow-lg dark:border dark:border-neutral-700 dark:bg-neutral-800 sm:max-w-md md:mt-0 xl:p-0"
+      <Stack spacing={8} mx={'auto'} w="lg" maxW={'lg'} py={12} px={6}>
+        <Stack align={'center'}>
+          <Heading fontSize={'4xl'}>Create new account</Heading>
+          <Text fontSize={'lg'} color={'gray.600'}>
+            To create custom forms.
+          </Text>
+        </Stack>
+        <Box
+          rounded={'lg'}
+          bg={useColorModeValue('white', 'gray.700')}
+          boxShadow={'lg'}
+          p={8}>
+          <Formik
+            initialValues={{
+              name: "",
+              email: "",
+              password: "",
+            }}
+            validationSchema={toFormikValidationSchema(SignUpSchema)}
+            onSubmit={(values) => {
+              mutation.mutate(values);
+            }}
           >
-            <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
-              <h1 className="text-xl font-medium leading-tight tracking-tight text-neutral-900 dark:text-white md:text-2xl">
-                Create new account
-              </h1>
-              <Formik
-                initialValues={{
-                  name: "",
-                  email: "",
-                  password: "",
-                }}
-                validationSchema={toFormikValidationSchema(SignUpSchema)}
-                onSubmit={(values) => {
-                  mutation.mutate(values);
-                }}
-              >
-                <Form className="space-y-4 md:space-y-6" action="#">
-                  <Field name="name">
-                    {({ field, meta }: FieldProps) => (
-                      <div>
-                        <label
-                          htmlFor="name"
-                          className="mb-2 block text-sm font-medium text-neutral-900 dark:text-white"
-                        >
-                          Your name
-                        </label>
-                        <input
-                          type="text"
-                          id="name"
-                          className="block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5  text-neutral-900 focus:border-black focus:ring-black dark:border-neutral-600 dark:bg-neutral-700 dark:text-white dark:placeholder-neutral-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                          placeholder="Full name"
-                          required
-                          {...field}
-                        />
-                        {meta.touched && meta.error && (
-                          <p className="ml-2 mt-2 text-sm text-red-500">
-                            {meta.error}
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  </Field>
-                  <Field name="email">
-                    {({ field, meta }: FieldProps) => (
-                      <div>
-                        <label
-                          htmlFor="email"
-                          className="mb-2 block text-sm font-medium text-neutral-900 dark:text-white"
-                        >
-                          Your email
-                        </label>
-                        <input
-                          type="email"
-                          id="email"
-                          className="block w-full rounded-lg border border-neutral-300 bg-neutral-50 p-2.5  text-neutral-900 focus:border-black focus:ring-black dark:border-neutral-600 dark:bg-neutral-700 dark:text-white dark:placeholder-neutral-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                          placeholder="name@company.com"
-                          required
-                          {...field}
-                        />
-                        {meta.touched && meta.error && (
-                          <p className="ml-2 mt-2 text-sm text-red-500">
-                            {meta.error}
-                          </p>
-                        )}
-                      </div>
-                    )}
-                  </Field>
-                  <PasswordInput />
+            <Form className="space-y-4 md:space-y-6">
+              <Stack spacing={4}>
+                <Field name="name">
+                  {({ field, meta }: FieldProps) => (
+                    <FormControl id="name">
+                      <FormLabel>Name</FormLabel>
+                      <Input
+                        type="text"
+                        placeholder="Name"
+                        required
+                        {...field}
+                      />
+                      {meta.touched && meta.error && (
+                        <p className="ml-2 mt-2 text-sm text-red-500">{meta.error}</p>
+                      )}
+                    </FormControl>
+                  )}
+                </Field>
+                <Field name="email">
+                  {({ field, meta }: FieldProps) => (
+                    <FormControl id="email">
+                      <FormLabel>Email</FormLabel>
+                      <Input
+                        type="email"
+                        placeholder="name@company.com"
+                        required
+                        {...field}
+                      />
+                      {meta.touched && meta.error && (
+                        <p className="ml-2 mt-2 text-sm text-red-500">{meta.error}</p>
+                      )}
+                    </FormControl>
+                  )}
+                </Field>
+                <Field name="password">
+                  {({ field, meta }: FieldProps) => (
+                    <FormControl id="password">
+                      <FormLabel>Password</FormLabel>
+                      <Input
+                        type="password"
+                        placeholder="password"
+                        required
+                        {...field}
+                      />
+                      {meta.touched && meta.error && (
+                        <p className="ml-2 mt-2 text-sm text-red-500">{meta.error}</p>
+                      )}
+                    </FormControl>
+                  )}
+                </Field>
+                <Stack spacing={10}>
                   <Button
                     type="submit"
-                    className="text-md w-full"
-                    size="lg"
+                    bg={'blue.400'}
+                    color={'white'}
+                    _hover={{
+                      bg: 'blue.500',
+                    }}
+                    leftIcon={<LucideArrowRight />}
                     isLoading={mutation.isLoading}
                     loadingText="Signing up..."
                   >
                     Sign up
                   </Button>
-                  <div className="flex flex-col items-center gap-2 md:flex-row">
-                    <Button
-                      onClick={() => {
-                        void handelOauthSignin("github");
-                      }}
-                      variant="outline"
-                      className="text-md flex w-full items-center justify-center gap-4"
-                      size="lg"
-                      LeftIcon={FaGithub}
-                    >
-                      Continue with Github
-                    </Button>
-                  </div>
+                </Stack>
+                <Button
+                  onClick={() => {
+                    void handelOauthSignin("github");
+                  }}
+                  variant="outline"
+                  size="md"
+                  leftIcon={<FaGithub />}
+                >
+                  Continue with Github
+                </Button>
 
-                  <p className="text-sm font-normal text-neutral-500 dark:text-neutral-400">
-                    Already have an account ?{" "}
-                    <Link
-                      href="/signin"
-                      className="font-medium text-black hover:underline dark:text-blue-500"
-                    >
-                      Sign In
-                    </Link>
-                  </p>
-                </Form>
-              </Formik>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-    </>
-  );
+                <p className="text-sm font-normal text-neutral-500 dark:text-neutral-400">
+                  Already have an account ?{" "}
+                  <Link
+                    href="/signin"
+                    className="font-medium text-black hover:underline dark:text-blue-500"
+                  >
+                    Sign In
+                  </Link>
+                </p>
+              </Stack>
+            </Form>
+          </Formik>
+        </Box>
+      </Stack>
+    </Flex>
+  )
 }
+
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context);
@@ -194,3 +191,4 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     props: { session },
   };
 }
+

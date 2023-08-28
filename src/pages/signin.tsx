@@ -1,94 +1,186 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { ExternalLinkIcon, LucideArrowLeft } from "lucide-react";
 import { type GetServerSidePropsContext } from "next";
 import { getSession, signIn } from "next-auth/react";
-import Head from "next/head";
-import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 
-import { Button } from "@/components/ui/button";
-import Divider from "@/modules/Global/Divider";
-import { CredentialSection } from "@/modules/Signin/CredentialSection";
 
-export default function SignInPage() {
-  async function handelOauthSignin(provider: string) {
-    await signIn(provider);
-  }
+import {
+  Box,
+  Button,
+  Checkbox,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Stack,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
+
+import { SigninSchema } from "@/utils/ValidationSchema";
+import { useToast } from '@chakra-ui/react';
+import { Field, Form, Formik, type FieldProps } from "formik";
+import { LucideArrowRight } from "lucide-react";
+import { toFormikValidationSchema } from "zod-formik-adapter";
+
+import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
+import Link from "next/link";
+import Head from "next/head";
+
+
+async function handelOauthSignin(provider: string) {
+  await signIn(provider);
+}
+
+export default function SimpleCard() {
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
+  const router = useRouter();
+
+  const handelCredentialSignin = useCallback(
+    async (credentails: { email: string; password: string }) => {
+      setIsLoading(true);
+      const result = await signIn("credentials", {
+        email: credentails.email,
+        password: credentails.password,
+        redirect: false,
+      });
+      setIsLoading(false);
+      if (result?.ok) {
+        toast({
+          title: "Login successful!",
+          status: "success",
+          description: "Taking you to your dashboard",
+        });
+        await router.push("/dashboard").catch((err) => console.log(err));
+      } else {
+        toast({
+          status: "error",
+          title: result?.error ?? "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+          // action: <ToastAction altText="Try again">Try again</ToastAction>,
+        });
+      }
+    },
+    [router, toast]
+  );
   return (
-    <>
+    <Flex
+      minH={'100vh'}
+      align={'center'}
+      justify={'center'}
+      bg={useColorModeValue('gray.50', 'gray.800')}>
       <Head>
-        <title>InForm | Sign-in</title>
+        <title>InForm | Sign in</title>
       </Head>
-      <section className="bg-neutral-100 dark:bg-neutral-900">
-        <div className="mx-auto flex h-screen flex-col items-center justify-center px-6 py-8 lg:py-0">
-          <motion.div layoutId="header" className="flex items-center  gap-5">
-            <Link
-              href="/"
-              className="flex items-center gap-5 rounded-full border-neutral-400 p-2 transition duration-200 ease-in-out hover:bg-neutral-500/20 "
-            >
-              <LucideArrowLeft className="text-2xl" />
-            </Link>
-            <div className="my-10  flex flex-col items-center ">
-              <p className="text-3xl">InForm</p>
-              <Link
-                href={"https://github.com/vishalx360/inform"}
-                className={
-                  "text-md flex items-center py-2 pl-3 pr-4 underline-offset-2  hover:underline "
-                }
-                target="_blank"
-                aria-current="page"
-              >
-                Github Repo
-                <ExternalLinkIcon className="ml-1 inline h-4 w-4" />
-              </Link>
-            </div>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "anticipate" }}
-            className="w-full rounded-xl bg-white shadow-lg dark:border dark:border-neutral-700 dark:bg-neutral-800 sm:max-w-md md:mt-0 xl:p-0"
+      <Stack spacing={8} mx={'auto'} w="lg" maxW={'lg'} py={12} px={6}>
+        <Stack align={'center'}>
+          <Heading fontSize={'4xl'}>Sign in</Heading>
+          <Text fontSize={'lg'} color={'gray.600'}>
+            To manage your forms
+          </Text>
+        </Stack>
+        <Box
+          rounded={'lg'}
+          bg={useColorModeValue('white', 'gray.700')}
+          boxShadow={'lg'}
+          p={8}>
+          <Formik
+            initialValues={{
+              email: "",
+              password: "",
+            }}
+            validationSchema={toFormikValidationSchema(SigninSchema)}
+            onSubmit={handelCredentialSignin}
           >
-            <div className="space-y-6 p-6 sm:p-8 md:space-y-6">
-              <h1 className="text-xl font-medium leading-tight tracking-tight text-neutral-900 dark:text-white md:text-2xl">
-                Sign in to your account
-              </h1>
+            <Form className="space-y-4 md:space-y-6">
+              <Stack spacing={4}>
 
-              <AnimatePresence mode="wait">
-                <CredentialSection />
-              </AnimatePresence>
-
-              <Divider />
-
-              <div className="flex flex-col items-center gap-2 md:flex-row">
+                <Field name="email">
+                  {({ field, meta }: FieldProps) => (
+                    <FormControl id="email">
+                      <FormLabel>Email</FormLabel>
+                      <Input
+                        type="email"
+                        placeholder="name@company.com"
+                        required
+                        {...field}
+                      />
+                      {meta.touched && meta.error && (
+                        <p className="ml-2 mt-2 text-sm text-red-500">{meta.error}</p>
+                      )}
+                    </FormControl>
+                  )}
+                </Field>
+                <Field name="password">
+                  {({ field, meta }: FieldProps) => (
+                    <FormControl id="password">
+                      <FormLabel>Password</FormLabel>
+                      <Input
+                        type="password"
+                        placeholder="password"
+                        required
+                        {...field}
+                      />
+                      {meta.touched && meta.error && (
+                        <p className="ml-2 mt-2 text-sm text-red-500">{meta.error}</p>
+                      )}
+                    </FormControl>
+                  )}
+                </Field>
+                <Stack spacing={10}>
+                  <Stack
+                    direction={{ base: 'column', sm: 'row' }}
+                    align={'start'}
+                    justify={'space-between'}>
+                    <Checkbox>Remember me</Checkbox>
+                    <Text color={'blue.400'}>Forgot password?</Text>
+                  </Stack>
+                  <Button
+                    type="submit"
+                    bg={'blue.400'}
+                    color={'white'}
+                    _hover={{
+                      bg: 'blue.500',
+                    }}
+                    leftIcon={<LucideArrowRight />}
+                    isLoading={isLoading}
+                    loadingText="Checking credentials..."
+                  >
+                    Sign in
+                  </Button>
+                </Stack>
                 <Button
                   onClick={() => {
                     void handelOauthSignin("github");
                   }}
                   variant="outline"
-                  className="text-md flex w-full items-center justify-center gap-4"
-                  size="lg"
-                  LeftIcon={FaGithub}
+                  // className="text-md flex w-full items-center justify-center gap-4"
+                  size="md"
+                  leftIcon={<FaGithub />}
                 >
                   Continue with Github
                 </Button>
-              </div>
-              <p className="text-sm font-normal text-neutral-500 dark:text-neutral-400">
-                Don’t have an account yet?{" "}
-                <Link
-                  href="/signup"
-                  className="font-medium text-black hover:underline dark:text-blue-500"
-                >
-                  Sign up
-                </Link>
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-    </>
-  );
+
+                <p className="text-sm font-normal text-neutral-500 dark:text-neutral-400">
+                  Dont have an account yet ?{' '}
+                  <Link
+                    href="/signup"
+                    className="font-medium text-black hover:underline dark:text-blue-500"
+                  >
+                    Sign Up
+                  </Link>
+                </p>
+              </Stack>
+            </Form>
+          </Formik>
+        </Box>
+      </Stack>
+    </Flex>
+  )
 }
+
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context);
@@ -103,3 +195,4 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     props: { session },
   };
 }
+
