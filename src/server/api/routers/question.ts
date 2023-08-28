@@ -1,5 +1,12 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { AddQuestionSchema, DeleteQuestionSchema, UpdateQuestionSchema } from "@/utils/ValidationSchema";
+import {
+  AddQuestionSchema,
+  DeleteQuestionSchema,
+  UpdateQuestionSchema,
+  UpdateQuestionSchemaLocal,
+} from "@/utils/ValidationSchema";
+
+export const DEFAULT_OPTIONS = ["Option 1", "Option 2", "Option 3", "Option 4"];
 
 export const QuestionRouter = createTRPCRouter({
   add: protectedProcedure
@@ -8,72 +15,35 @@ export const QuestionRouter = createTRPCRouter({
       const newOrder = await ctx.prisma.question.count({
         where: {
           formId: input.formId,
-        }
+        },
       });
       return ctx.prisma.question.create({
         data: {
           formId: input.formId,
           text: "Untitled Question",
+          type: input.questionType,
           order: newOrder,
-          options: {
-            createMany: {
-              data: [
-                {
-                  text: "Option 1",
-                  order: 0,
-                },
-                {
-                  text: "Option 2",
-                  order: 1,
-                },
-                {
-                  text: "Option 3",
-                  order: 2,
-                },
-                {
-                  text: "Option 4",
-                  order: 3,
-                }
-              ]
-            }
-          }
-        }
+          options:
+            input.questionType === "MULTIPLE_CHOICE"
+              ? DEFAULT_OPTIONS
+              : undefined,
+        },
       });
     }),
 
   update: protectedProcedure
     .input(UpdateQuestionSchema)
     .mutation(async ({ ctx, input }) => {
-      const updateQuestion = ctx.prisma.question.update({
+      return ctx.prisma.question.update({
         where: {
           id: input.questionId,
         },
         data: {
           text: input.text,
-        }
+          options: input.options,
+          description: input.description,
+        },
       });
-      const updateOptions = input.options.map((option, index) => {
-        if (option.id) {
-          return ctx.prisma.option.update({
-            where: {
-              id: option.id,
-            },
-            data: {
-              order: index,
-              text: option.text,
-            }
-          });
-        }
-
-        return ctx.prisma.option.create({
-          data: {
-            order: index,
-            text: option.text,
-            questionId: input.questionId,
-          }
-        });
-      })
-      return ctx.prisma.$transaction([updateQuestion, ...updateOptions]);
     }),
 
   delete: protectedProcedure
@@ -82,7 +52,7 @@ export const QuestionRouter = createTRPCRouter({
       return ctx.prisma.question.delete({
         where: {
           id: input.questionId,
-        }
+        },
       });
     }),
 });

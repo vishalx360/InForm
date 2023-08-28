@@ -6,7 +6,6 @@ const passwordSchema = z
   .max(16, "Must contain less than 16 characters")
   .regex(/^\S*$/, { message: "Password must not contain whitespace" });
 
-
 // form
 
 export const CreateFormSchema = z.object({
@@ -27,20 +26,27 @@ export const GetFormSchema = z.object({
 export const DeleteFormSchema = z.object({
   formId: z.string(),
 });
+const QUESTION_TYPE_ENUM = z.enum(["TEXT", "MULTIPLE_CHOICE", "URL", "EMAIL"]);
 
 export const AddQuestionSchema = z.object({
   formId: z.string(),
+  questionType: QUESTION_TYPE_ENUM,
+});
+
+export const UpdateQuestionSchemaLocal = z.object({
+  questionId: z.string(),
+  text: z.string().max(500),
+  type: QUESTION_TYPE_ENUM,
+  description: z.string().max(1000).optional(),
+  options: z.array(z.string().max(500)).min(2).max(4),
 });
 
 export const UpdateQuestionSchema = z.object({
   questionId: z.string(),
   text: z.string().max(500),
-  options: z.array(
-    z.object({
-      id: z.string().optional(),
-      text: z.string().max(500),
-    })
-  ),
+  type: QUESTION_TYPE_ENUM,
+  description: z.string().max(1000).optional(),
+  options: z.array(z.string().max(500)).max(4).optional(),
 });
 
 export const DeleteQuestionSchema = z.object({
@@ -57,7 +63,6 @@ export const FormSubmissionSchema = z.object({
     })
   ),
 });
-
 
 // export const searchSchemaLocal = z.object({
 //   query: z.string().optional(),

@@ -1,11 +1,10 @@
-# inform
+# InForm
 
-Demo: [https://omnify.vishalx360.dev/](https://omnify.vishalx360.dev)
+Demo: [https://inform.vishalx360.dev/](https://inform.vishalx360.dev)
 
-Solution for [Full Stack Developer Assignment
-](https://docs.google.com/document/d/1A_m4Z_vDmaaHhSdradzjnJhNAqrGzl0NTgvXWMil79k/edit) at [omnify](https://www.getomnify.com/)
+Solution for Full Stack Developer Assignment | Mercor
 
-A web application that allows users to search for and view information about movies.
+A web application that allows users to create forms and take surveys.
 
 ## Getting Started
 
@@ -17,8 +16,8 @@ Want to setup locally ? follow [Setup Instructions](/Setup-Instruction.md)
 
 ## Final Ui Screenshots
 
-|           Dashboard           |     Movie Detail Page     |        Favorite Page        |
-| :---------------------------: | :-----------------------: | :-------------------------: |
+|                   Dashboard                   |             Movie Detail Page             |                Favorite Page                |
+| :-------------------------------------------: | :---------------------------------------: | :-----------------------------------------: |
 | ![dashboard](./public/diagrams/dashboard.png) | ![details](./public/diagrams/details.png) | ![favorite](./public/diagrams/favorite.png) |
 
 ## Tech Stack

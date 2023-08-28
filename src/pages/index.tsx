@@ -8,10 +8,7 @@ export default function Home({ session }: { session: Session }) {
     <>
       <Head>
         <title>InForm | Home</title>
-        <meta
-          name="description"
-          content="Manage Forms"
-        />
+        <meta name="description" content="Manage Forms" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center">

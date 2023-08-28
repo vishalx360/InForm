@@ -2,7 +2,6 @@ import { type GetServerSidePropsContext } from "next";
 import { getSession, signIn } from "next-auth/react";
 import { FaGithub } from "react-icons/fa";
 
-
 import {
   Box,
   Button,
@@ -13,11 +12,11 @@ import {
   Input,
   Stack,
   Text,
-  useColorModeValue
-} from '@chakra-ui/react';
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 import { SignUpSchema } from "@/utils/ValidationSchema";
-import { useToast } from '@chakra-ui/react';
+import { useToast } from "@chakra-ui/react";
 import { Field, Form, Formik, type FieldProps } from "formik";
 import { LucideArrowRight } from "lucide-react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
@@ -27,7 +26,6 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
-
 
 export default function SimpleCard() {
   const [isLoading, setIsLoading] = useState(false);
@@ -53,25 +51,27 @@ export default function SimpleCard() {
   }
   return (
     <Flex
-      minH={'100vh'}
-      align={'center'}
-      justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
+      minH={"100vh"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
+    >
       <Head>
         <title>InForm | Sign up</title>
       </Head>
-      <Stack spacing={8} mx={'auto'} w="lg" maxW={'lg'} py={12} px={6}>
-        <Stack align={'center'}>
-          <Heading fontSize={'4xl'}>Create new account</Heading>
-          <Text fontSize={'lg'} color={'gray.600'}>
+      <Stack spacing={8} mx={"auto"} w="lg" maxW={"lg"} py={12} px={6}>
+        <Stack align={"center"}>
+          <Heading fontSize={"4xl"}>Create new account</Heading>
+          <Text fontSize={"lg"} color={"gray.600"}>
             To create custom forms.
           </Text>
         </Stack>
         <Box
-          rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
-          boxShadow={'lg'}
-          p={8}>
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"lg"}
+          p={8}
+        >
           <Formik
             initialValues={{
               name: "",
@@ -96,7 +96,9 @@ export default function SimpleCard() {
                         {...field}
                       />
                       {meta.touched && meta.error && (
-                        <p className="ml-2 mt-2 text-sm text-red-500">{meta.error}</p>
+                        <p className="ml-2 mt-2 text-sm text-red-500">
+                          {meta.error}
+                        </p>
                       )}
                     </FormControl>
                   )}
@@ -112,7 +114,9 @@ export default function SimpleCard() {
                         {...field}
                       />
                       {meta.touched && meta.error && (
-                        <p className="ml-2 mt-2 text-sm text-red-500">{meta.error}</p>
+                        <p className="ml-2 mt-2 text-sm text-red-500">
+                          {meta.error}
+                        </p>
                       )}
                     </FormControl>
                   )}
@@ -128,7 +132,9 @@ export default function SimpleCard() {
                         {...field}
                       />
                       {meta.touched && meta.error && (
-                        <p className="ml-2 mt-2 text-sm text-red-500">{meta.error}</p>
+                        <p className="ml-2 mt-2 text-sm text-red-500">
+                          {meta.error}
+                        </p>
                       )}
                     </FormControl>
                   )}
@@ -136,10 +142,10 @@ export default function SimpleCard() {
                 <Stack spacing={10}>
                   <Button
                     type="submit"
-                    bg={'blue.400'}
-                    color={'white'}
+                    bg={"blue.400"}
+                    color={"white"}
                     _hover={{
-                      bg: 'blue.500',
+                      bg: "blue.500",
                     }}
                     leftIcon={<LucideArrowRight />}
                     isLoading={mutation.isLoading}
@@ -174,9 +180,8 @@ export default function SimpleCard() {
         </Box>
       </Stack>
     </Flex>
-  )
+  );
 }
-
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context);
@@ -191,4 +196,3 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     props: { session },
   };
 }
-

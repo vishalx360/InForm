@@ -2,7 +2,6 @@ import { type GetServerSidePropsContext } from "next";
 import { getSession, signIn } from "next-auth/react";
 import { FaGithub } from "react-icons/fa";
 
-
 import {
   Box,
   Button,
@@ -15,10 +14,10 @@ import {
   Stack,
   Text,
   useColorModeValue,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 
 import { SigninSchema } from "@/utils/ValidationSchema";
-import { useToast } from '@chakra-ui/react';
+import { useToast } from "@chakra-ui/react";
 import { Field, Form, Formik, type FieldProps } from "formik";
 import { LucideArrowRight } from "lucide-react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
@@ -27,7 +26,6 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
-
 
 async function handelOauthSignin(provider: string) {
   await signIn(provider);
@@ -67,25 +65,27 @@ export default function SimpleCard() {
   );
   return (
     <Flex
-      minH={'100vh'}
-      align={'center'}
-      justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
+      minH={"100vh"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
+    >
       <Head>
         <title>InForm | Sign in</title>
       </Head>
-      <Stack spacing={8} mx={'auto'} w="lg" maxW={'lg'} py={12} px={6}>
-        <Stack align={'center'}>
-          <Heading fontSize={'4xl'}>Sign in</Heading>
-          <Text fontSize={'lg'} color={'gray.600'}>
+      <Stack spacing={8} mx={"auto"} w="lg" maxW={"lg"} py={12} px={6}>
+        <Stack align={"center"}>
+          <Heading fontSize={"4xl"}>Sign in</Heading>
+          <Text fontSize={"lg"} color={"gray.600"}>
             To manage your forms
           </Text>
         </Stack>
         <Box
-          rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
-          boxShadow={'lg'}
-          p={8}>
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"lg"}
+          p={8}
+        >
           <Formik
             initialValues={{
               email: "",
@@ -96,7 +96,6 @@ export default function SimpleCard() {
           >
             <Form className="space-y-4 md:space-y-6">
               <Stack spacing={4}>
-
                 <Field name="email">
                   {({ field, meta }: FieldProps) => (
                     <FormControl id="email">
@@ -108,7 +107,9 @@ export default function SimpleCard() {
                         {...field}
                       />
                       {meta.touched && meta.error && (
-                        <p className="ml-2 mt-2 text-sm text-red-500">{meta.error}</p>
+                        <p className="ml-2 mt-2 text-sm text-red-500">
+                          {meta.error}
+                        </p>
                       )}
                     </FormControl>
                   )}
@@ -124,25 +125,28 @@ export default function SimpleCard() {
                         {...field}
                       />
                       {meta.touched && meta.error && (
-                        <p className="ml-2 mt-2 text-sm text-red-500">{meta.error}</p>
+                        <p className="ml-2 mt-2 text-sm text-red-500">
+                          {meta.error}
+                        </p>
                       )}
                     </FormControl>
                   )}
                 </Field>
                 <Stack spacing={10}>
                   <Stack
-                    direction={{ base: 'column', sm: 'row' }}
-                    align={'start'}
-                    justify={'space-between'}>
+                    direction={{ base: "column", sm: "row" }}
+                    align={"start"}
+                    justify={"space-between"}
+                  >
                     <Checkbox>Remember me</Checkbox>
-                    <Text color={'blue.400'}>Forgot password?</Text>
+                    <Text color={"blue.400"}>Forgot password?</Text>
                   </Stack>
                   <Button
                     type="submit"
-                    bg={'blue.400'}
-                    color={'white'}
+                    bg={"blue.400"}
+                    color={"white"}
                     _hover={{
-                      bg: 'blue.500',
+                      bg: "blue.500",
                     }}
                     leftIcon={<LucideArrowRight />}
                     isLoading={isLoading}
@@ -164,7 +168,7 @@ export default function SimpleCard() {
                 </Button>
 
                 <p className="text-sm font-normal text-neutral-500 dark:text-neutral-400">
-                  Dont have an account yet ?{' '}
+                  Dont have an account yet ?{" "}
                   <Link
                     href="/signup"
                     className="font-medium text-black hover:underline dark:text-blue-500"
@@ -178,9 +182,8 @@ export default function SimpleCard() {
         </Box>
       </Stack>
     </Flex>
-  )
+  );
 }
-
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context);
@@ -195,4 +198,3 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     props: { session },
   };
 }
-

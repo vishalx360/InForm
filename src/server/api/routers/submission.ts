@@ -15,12 +15,11 @@ export const SubmissionRouter = createTRPCRouter({
                   questionId: response.questionId,
                   optionId: response.optionId,
                   text: response.text ?? "__OPTION__",
-                }
-              }
-              )
-            }
-          }
-        }
+                };
+              }),
+            },
+          },
+        },
       });
     }),
 });

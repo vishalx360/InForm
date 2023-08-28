@@ -12,15 +12,6 @@ datasource db {
     shadowDatabaseUrl = env("DATABASE_URL_NON_POOLING") // used for migrations
 }
 
-model Favroite {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId    String
-    // all movie
-    movie_id  Int
-}
-
 model Form {
     id          String           @id @default(cuid())
     createdAt   DateTime         @default(now())
@@ -33,37 +24,29 @@ model Form {
 }
 
 enum QuestionType {
-    MULTIPLE_CHOICE
     TEXT
-    CHECKBOX
+    URL
+    EMAIL
+    MULTIPLE_CHOICE
 }
 
 model Question {
     id          String       @id @default(cuid())
     text        String
     order       Int
-    description String?      @db.Text
+    description String?      @default("") @db.Text
     type        QuestionType @default(MULTIPLE_CHOICE)
     formId      String
     form        Form         @relation(fields: [formId], references: [id], onDelete: Cascade)
-    options     Option[]
+    options     String[]
     responses   Response[]
-}
-
-model Option {
-    id         String     @id @default(cuid())
-    text       String
-    order      Int
-    questionId String
-    question   Question   @relation(fields: [questionId], references: [id])
-    responses  Response[]
 }
 
 model Response {
     id           String         @id @default(cuid())
     text         String
     optionId     String?
-    option       Option?        @relation(fields: [optionId], references: [id])
+    option       String?
     questionId   String
     question     Question       @relation(fields: [questionId], references: [id])
     submissionId String
@@ -105,16 +88,15 @@ model Session {
 }
 
 model User {
-    id            String     @id @default(cuid())
+    id            String    @id @default(cuid())
     name          String?
-    email         String?    @unique
+    email         String?   @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
     password      String?
     // app specific fields
-    favroites     Favroite[]
     forms         Form[]
 }
 
