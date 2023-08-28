@@ -6,35 +6,62 @@ const passwordSchema = z
   .max(16, "Must contain less than 16 characters")
   .regex(/^\S*$/, { message: "Password must not contain whitespace" });
 
-// favorite
-export const AddToFavoriteSchema = z.object({
-  movie_id: z.number(),
+
+// form
+
+export const CreateFormSchema = z.object({
+  title: z.string().max(100),
+  description: z.string().max(500),
 });
 
-// movie
-export const getListSchema = z.object({
-  type: z.enum(["POPULAR", "TOPRATED", "NOWPLAYING", "UPCOMING"]),
-  page: z.number().default(1),
+export const UpdateFormSchema = z.object({
+  formId: z.string(),
+  title: z.string().max(100),
+  description: z.string().max(500),
 });
 
-export const getDetailsSchema = z.object({
-  movie_id: z.string(),
+export const GetFormSchema = z.object({
+  formId: z.string(),
 });
 
-export const getSimilarSchema = z.object({
-  movie_id: z.string(),
-  page: z.number().default(1),
+export const DeleteFormSchema = z.object({
+  formId: z.string(),
 });
 
-export const searchSchema = z.object({
-  query: z.string(),
-  page: z.number().default(1),
-  year: z.number().optional(),
+export const AddQuestionSchema = z.object({
+  formId: z.string(),
 });
 
-export const searchSchemaLocal = z.object({
-  query: z.string().optional(),
+export const UpdateQuestionSchema = z.object({
+  questionId: z.string(),
+  text: z.string().max(500),
+  options: z.array(
+    z.object({
+      id: z.string().optional(),
+      text: z.string().max(500),
+    })
+  ),
 });
+
+export const DeleteQuestionSchema = z.object({
+  questionId: z.string(),
+});
+
+export const FormSubmissionSchema = z.object({
+  formId: z.string(),
+  responses: z.array(
+    z.object({
+      questionId: z.string(),
+      optionId: z.string().optional(),
+      text: z.string().optional(),
+    })
+  ),
+});
+
+
+// export const searchSchemaLocal = z.object({
+//   query: z.string().optional(),
+// });
 
 export const SigninSchema = z.object({
   email: z.string().email(),

@@ -1,7 +1,8 @@
 import { createTRPCRouter } from "@/server/api/trpc";
 import { AuthenticationRouter } from "./routers/authentication";
-import { FavoriteRouter } from "./routers/favorite";
-import { MovieRouter } from "./routers/movie";
+import { FormRouter } from "./routers/form";
+import { QuestionRouter } from "./routers/question";
+import { SubmissionRouter } from "./routers/submission";
 
 /**
  * This is the primary router for your server.
@@ -10,8 +11,9 @@ import { MovieRouter } from "./routers/movie";
  */
 export const appRouter = createTRPCRouter({
   authentication: AuthenticationRouter,
-  movie: MovieRouter,
-  favorite: FavoriteRouter,
+  form: FormRouter,
+  question: QuestionRouter,
+  submission: SubmissionRouter
 });
 
 // export type definition of API
