@@ -45,21 +45,25 @@ export type QuestionType = {
 export const QuestionTypeTagIconMap = {
   TEXT: {
     text: "Text",
+    inputType: "text",
     icon: LucideText,
     answerHint: "Users can enter any text",
   },
   EMAIL: {
     text: "Email",
+    inputType: "email",
     icon: LucideMail,
     answerHint: "Users can enter any email address",
   },
   URL: {
     text: "URL",
+    inputType: "url",
     icon: LucideLink,
     answerHint: "Users can enter any URL",
   },
   MULTIPLE_CHOICE: {
     text: "Multiple Choice",
+    inputType: "text",
     icon: LucideListTodo,
     answerHint: "Users can select any one option",
   },
@@ -208,7 +212,7 @@ export default function QuestionEditor({
                       </Button>
                       <Button
                         isLoading={UpdateQuestionMutation.isLoading}
-                        colorScheme="green"
+                        colorScheme="teal"
                         type="submit"
                       >
                         Save Changes

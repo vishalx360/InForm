@@ -139,15 +139,11 @@ export default function SimpleCard() {
                     justify={"space-between"}
                   >
                     <Checkbox>Remember me</Checkbox>
-                    <Text color={"blue.400"}>Forgot password?</Text>
+                    <Text color={"teal.400"}>Forgot password?</Text>
                   </Stack>
                   <Button
                     type="submit"
-                    bg={"blue.400"}
-                    color={"white"}
-                    _hover={{
-                      bg: "blue.500",
-                    }}
+                    colorScheme="teal"
                     leftIcon={<LucideArrowRight />}
                     isLoading={isLoading}
                     loadingText="Checking credentials..."

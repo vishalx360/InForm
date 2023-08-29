@@ -18,8 +18,8 @@ import {
 } from "./QuestionEditor";
 export type GetForm = RouterOutputs["form"]["get"];
 
-function FormEditor({ form }: { form: GetForm }) {
-  if (!form) {
+function FormEditor({ FormData }: { FormData: GetForm }) {
+  if (!FormData) {
     return <Box>Loading...</Box>;
   }
   return (
@@ -28,16 +28,16 @@ function FormEditor({ form }: { form: GetForm }) {
         Total{" "}
         <Text as="span" fontWeight="bold">
           {" "}
-          {form.questions.length}{" "}
+          {FormData.questions.length}{" "}
         </Text>{" "}
         Questions Added
       </Text>
       <Stack direction={"column"} gap="5">
-        {form?.questions.map((question) => {
+        {FormData?.questions.map((question) => {
           return <QuestionEditor key={question.id} question={question} />;
         })}
       </Stack>
-      <AddQuestionButton formId={form.id} />
+      <AddQuestionButton formId={FormData.id} />
     </div>
   );
 }

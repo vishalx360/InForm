@@ -140,11 +140,7 @@ export default function SimpleCard() {
                 <Stack spacing={10}>
                   <Button
                     type="submit"
-                    bg={"blue.400"}
-                    color={"white"}
-                    _hover={{
-                      bg: "blue.500",
-                    }}
+                    colorScheme="teal"
                     leftIcon={<LucideArrowRight />}
                     isLoading={mutation.isLoading}
                     loadingText="Signing up..."

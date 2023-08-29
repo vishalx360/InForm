@@ -45,8 +45,6 @@ model Question {
 model Response {
     id           String         @id @default(cuid())
     text         String
-    optionId     String?
-    option       String?
     questionId   String
     question     Question       @relation(fields: [questionId], references: [id])
     submissionId String

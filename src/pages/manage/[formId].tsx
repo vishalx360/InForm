@@ -15,13 +15,16 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { LucideArrowLeft, LucideLoader } from "lucide-react";
+import { type GetServerSidePropsContext } from "next";
+import { getSession } from "next-auth/react";
 import Error from "next/error";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 
-function MovieDetailsPage() {
+
+function FormManagePage() {
   const router = useRouter();
-  const { data: form, error } = api.form.get.useQuery(
+  const { data: FormData, error } = api.form.get.useQuery(
     { formId: router.query?.formId as string },
     { enabled: Boolean(router.query.formId) }
   );
@@ -47,16 +50,16 @@ function MovieDetailsPage() {
           </HStack>
         </LinkBox>
 
-        {form ? (
+        {FormData ? (
           <Box>
             <Box my="5">
-              <Heading>{form.title}</Heading>
+              <Heading>{FormData.title}</Heading>
               <Text mt="3" fontSize="md">
                 {" "}
-                {form.description}
+                {FormData.description}
               </Text>
               <Text mt="3" fontSize="md">
-                Created : {form.createdAt.toDateString()}
+                Created : {FormData.createdAt.toDateString()}
               </Text>
             </Box>
             <Tabs variant="line">
@@ -67,7 +70,7 @@ function MovieDetailsPage() {
               </TabList>
               <TabPanels>
                 <TabPanel>
-                  <FormEditor form={form} />
+                  <FormEditor FormData={FormData} />
                 </TabPanel>
                 <TabPanel>
                   <p>two!</p>
@@ -90,4 +93,20 @@ function MovieDetailsPage() {
   );
 }
 
-export default MovieDetailsPage;
+export default FormManagePage;
+
+// make server call to redirect to /signin if not authenticated nextauth
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: { session },
+  };
+}
