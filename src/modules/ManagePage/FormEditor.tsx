@@ -1,4 +1,4 @@
-import { type RouterOutputs, api } from "@/utils/api";
+import { api, type RouterOutputs } from "@/utils/api";
 import {
   Box,
   Button,
@@ -12,12 +12,9 @@ import {
 } from "@chakra-ui/react";
 import { type Question } from "@prisma/client";
 import {
-  LucideLink,
-  LucideListTodo,
-  LucidePlus,
-  LucideText,
+  LucidePlus
 } from "lucide-react";
-import { default as QuestionEditor } from "./QuestionEditor";
+import { default as QuestionEditor, QuestionTypeTagIconMap } from "./QuestionEditor";
 export type GetForm = RouterOutputs["form"]["get"];
 
 function FormEditor({ form }: { form: GetForm }) {
@@ -26,7 +23,14 @@ function FormEditor({ form }: { form: GetForm }) {
   }
   return (
     <div>
-      <h1>{form.questions.length} Questions</h1>
+      <Text my="3">
+        Total{" "}
+        <Text as="span" fontWeight="bold">
+          {" "}
+          {form.questions.length}{" "}
+        </Text>{" "}
+        Questions Added
+      </Text>
       <Stack direction={"column"} gap="5">
         {form?.questions.map((question) => {
           return <QuestionEditor key={question.id} question={question} />;
@@ -80,27 +84,20 @@ function AddQuestionButton({ formId }: { formId: string }) {
             <Text>Question Type</Text>
           </Box>
           <MenuDivider />
-          <MenuItem
-            onClick={() => {
-              HandelAdd("TEXT");
-            }}
-          >
-            <LucideText className="mr-2" /> Text
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              HandelAdd("URL");
-            }}
-          >
-            <LucideLink className="mr-2" /> URL
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              HandelAdd("MULTIPLE_CHOICE");
-            }}
-          >
-            <LucideListTodo className="mr-2" /> Multiple Choice
-          </MenuItem>
+          {Object.entries(QuestionTypeTagIconMap).map(([key, value]) => {
+            const Icon = value.icon;
+            return (
+              <MenuItem
+                key={key}
+                onClick={() => {
+                  HandelAdd(key as Question["type"]);
+                }}
+              >
+                <Icon className="mr-2" /> {value.text}
+              </MenuItem>
+            );
+          })
+          }
         </MenuList>
       </Menu>
     </Box>

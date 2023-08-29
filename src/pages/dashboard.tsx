@@ -1,6 +1,6 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import FormGrid, { FormRowSkeleton } from "@/components/FormGrid";
-import { type RouterOutputs, api } from "@/utils/api";
+import { api, type RouterOutputs } from "@/utils/api";
 import { Button, HStack, useToast } from "@chakra-ui/react";
 import { LucidePlus } from "lucide-react";
 import { type GetServerSidePropsContext } from "next";
@@ -45,7 +45,7 @@ function Dashboard() {
           <h1 className=" text-2xl font-medium capitalize">My Forms</h1>
           <Button
             isLoading={CreateNewForm.isLoading}
-            colorScheme="telegram"
+            colorScheme="teal"
             variant="solid"
             size="sm"
             leftIcon={<LucidePlus />}

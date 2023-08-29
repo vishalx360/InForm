@@ -22,10 +22,10 @@ import { Field, Form, Formik, type FieldProps } from "formik";
 import { LucideArrowRight } from "lucide-react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
+import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
-import Link from "next/link";
-import Head from "next/head";
 
 async function handelOauthSignin(provider: string) {
   await signIn(provider);

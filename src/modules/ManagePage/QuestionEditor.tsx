@@ -29,6 +29,12 @@ import {
   type FieldArrayRenderProps,
   type FieldProps,
 } from "formik";
+import {
+  LucideLink,
+  LucideListTodo,
+  LucideMail,
+  LucideText,
+} from "lucide-react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { type GetForm } from "./FormEditor";
 
@@ -41,15 +47,27 @@ type QuestionType = {
   formId: string;
 };
 
-const questionTypeMap = {
-  TEXT: "Text",
-  URL: "URL",
-  MULTIPLE_CHOICE: "Multiple Choice",
-  EMAIL: "Email",
+export const QuestionTypeTagIconMap = {
+  TEXT: {
+    text: "Text",
+    icon: LucideText,
+  },
+  EMAIL: {
+    text: "Email",
+    icon: LucideMail,
+  },
+  URL: {
+    text: "URL",
+    icon: LucideLink,
+  },
+  MULTIPLE_CHOICE: {
+    text: "Multiple Choice",
+    icon: LucideListTodo,
+  },
 };
 
 function getReadableQuestionType(type: Question["type"]) {
-  return questionTypeMap[type] || "Unknown";
+  return QuestionTypeTagIconMap[type].text || "Unknown";
 }
 
 export default function QuestionEditor({
@@ -116,12 +134,14 @@ export default function QuestionEditor({
       });
     },
   });
+  const TagIcon = QuestionTypeTagIconMap[question.type].icon || LucideText;
 
   return (
     <Box borderWidth="1px" bg="whiteAlpha.200" rounded="xl" p="6">
       <HStack justifyContent="space-between">
-        <Tag colorScheme="blue" mb="2">
-          {getReadableQuestionType(question.type)}
+        <Tag colorScheme="teal" mb="2">
+          <TagIcon size="16" className="mr-2" />
+          {QuestionTypeTagIconMap[question.type].text}
         </Tag>
         <DeleteQuestionButton
           formId={question.formId}
@@ -338,7 +358,7 @@ function DeleteQuestionButton({
       isLoading={DeleteQuestionMutation.isLoading}
       size="xs"
       variant="outline"
-    // leftIcon={<LucideTrash />}
+      // leftIcon={<LucideTrash />}
     >
       Remove Question
     </Button>

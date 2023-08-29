@@ -59,7 +59,7 @@ function MovieDetailsPage() {
                 Created : {form.createdAt.toDateString()}
               </Text>
             </Box>
-            <Tabs>
+            <Tabs variant="line">
               <TabList>
                 <Tab>Edit Form</Tab>
                 <Tab>Responses</Tab>

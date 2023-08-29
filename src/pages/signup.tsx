@@ -22,13 +22,11 @@ import { LucideArrowRight } from "lucide-react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 import { api } from "@/utils/api";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import Link from "next/link";
 import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function SimpleCard() {
-  const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
   const router = useRouter();
 

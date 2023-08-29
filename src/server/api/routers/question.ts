@@ -3,7 +3,6 @@ import {
   AddQuestionSchema,
   DeleteQuestionSchema,
   UpdateQuestionSchema,
-  UpdateQuestionSchemaLocal,
 } from "@/utils/ValidationSchema";
 
 export const DEFAULT_OPTIONS = ["Option 1", "Option 2", "Option 3", "Option 4"];
