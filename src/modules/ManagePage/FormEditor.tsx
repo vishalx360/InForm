@@ -16,7 +16,7 @@ import {
   default as QuestionEditor,
   QuestionTypeTagIconMap,
 } from "./QuestionEditor";
-export type GetForm = RouterOutputs["form"]["get"];
+import { type GetForm } from "@/pages/manage/[formId]";
 
 function FormEditor({ FormData }: { FormData: GetForm }) {
   if (!FormData) {

@@ -2,7 +2,7 @@ import DashboardLayout from "@/components/DashboardLayout";
 import { env } from "@/env.mjs";
 import FormEditor from "@/modules/ManagePage/FormEditor";
 import SubmissionsTab from "@/modules/SubmissionsTab";
-import { api } from "@/utils/api";
+import { type RouterOutputs, api } from "@/utils/api";
 import {
   Box,
   Button,
@@ -18,12 +18,20 @@ import {
   Text,
   useClipboard,
 } from "@chakra-ui/react";
-import { LucideArrowLeft, LucideLink, LucideLoader } from "lucide-react";
+import {
+  LucideArrowLeft,
+  LucideLink,
+  LucideLoader,
+  LucidePencil,
+} from "lucide-react";
 import { type GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
 import Error from "next/error";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
+import ReactTimeago from "react-timeago";
+
+export type GetForm = RouterOutputs["form"]["get"];
 
 function FormManagePage() {
   const router = useRouter();
@@ -59,25 +67,29 @@ function FormManagePage() {
         {FormData ? (
           <Box>
             <Box my="5">
-              <Heading>{FormData.title}</Heading>
-              <Text mt="3" fontSize="md">
-                {" "}
-                {FormData.description}
-              </Text>
-              <Text mt="3" fontSize="md">
-                Created : {FormData.createdAt.toDateString()}
-              </Text>
-              <Button
-                variant="outline"
-                size="sm"
-                mt="2"
-                leftIcon={<LucideLink size="16" />}
-                onClick={onCopy}
-                colorScheme="teal"
-                fontWeight="bold"
-              >
-                {hasCopied ? "Copied!" : "Copy Form Link"}
-              </Button>
+              <HStack justifyContent="space-between">
+                <Text mb="3" fontSize="md">
+                  Created :{" "}
+                  <ReactTimeago date={FormData.createdAt.toDateString()} />
+                </Text>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  mt="2"
+                  leftIcon={<LucideLink size="16" />}
+                  onClick={onCopy}
+                  colorScheme="teal"
+                  fontWeight="bold"
+                >
+                  {hasCopied ? "Copied!" : "Copy Form Link"}
+                </Button>
+              </HStack>
+              <Box>
+                <Heading>{FormData?.title}</Heading>
+                <Text mt="3" fontSize="md">
+                  {FormData?.description}
+                </Text>
+              </Box>
             </Box>
             <Tabs colorScheme="teal" variant="line">
               <TabList>

@@ -1,25 +1,28 @@
-import { FormRowSkeleton } from '@/components/FormGrid';
-import { api } from '@/utils/api';
-import Error from 'next/error';
-import SubmissionTable from './SubmissionTable';
+import { FormRowSkeleton } from "@/components/FormGrid";
+import { api } from "@/utils/api";
+import Error from "next/error";
+import SubmissionTable from "./SubmissionTable";
 
 export default function SubmissionsTab({ formId }: { formId: string }) {
-    const { data: submissions, error, isLoading } = api.form.getSubmissions.useQuery(
-        { formId },
-        { enabled: Boolean(formId) }
-    );
-    if (error) {
-        return (
-            <Error statusCode={error.data?.httpStatus ?? 500} title={error.message} />
-        );
-    }
-    if (isLoading) {
-        return <FormRowSkeleton amount={5} />
-    }
+  const {
+    data: submissions,
+    error,
+    isLoading,
+  } = api.form.getSubmissions.useQuery(
+    { formId },
+    { enabled: Boolean(formId) }
+  );
+  if (error) {
     return (
-        <div>
-            <SubmissionTable submissions={submissions} />
-        </div>
+      <Error statusCode={error.data?.httpStatus ?? 500} title={error.message} />
     );
+  }
+  if (isLoading) {
+    return <FormRowSkeleton amount={5} />;
+  }
+  return (
+    <div>
+      <SubmissionTable submissions={submissions} />
+    </div>
+  );
 }
-

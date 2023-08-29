@@ -10,20 +10,15 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import AnswerFiller from "./AnswerFiller";
-export type GetForm = RouterOutputs["form"]["get"];
 
 import { env } from "@/env.mjs";
 import { Field, Form, Formik, type FieldProps } from "formik";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import { type GetForm } from "@/pages/manage/[formId]";
 
-export default function FormFiller(
-  { FormData
-  }
-    : {
-      FormData: GetForm;
-    }) {
+export default function FormFiller({ FormData }: { FormData: GetForm }) {
   const router = useRouter();
   const successPageLink = `${env.NEXT_PUBLIC_HOST_URL}/success/${FormData?.id}`;
 

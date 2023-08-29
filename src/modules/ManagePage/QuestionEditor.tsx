@@ -29,8 +29,8 @@ import {
 } from "lucide-react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import DeleteQuestionButton from "./DeleteQuestionBtn";
-import { type GetForm } from "./FormEditor";
 import { OptionsEditor } from "./OptionsEditor";
+import { type GetForm } from "@/pages/manage/[formId]";
 
 export type QuestionType = {
   id: string;

@@ -1,6 +1,6 @@
+import { type GetForm } from "@/pages/manage/[formId]";
 import { api } from "@/utils/api";
 import { Button, useToast } from "@chakra-ui/react";
-import { type GetForm } from "./FormEditor";
 
 export default function DeleteQuestionButton({
   questionId,

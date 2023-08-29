@@ -48,7 +48,6 @@ export const FormRouter = createTRPCRouter({
   getSubmissions: protectedProcedure
     .input(GetFormSchema)
     .query(async ({ ctx, input }) => {
-
       const exist = await ctx.prisma.form.count({
         where: {
           id: input.formId,
@@ -58,8 +57,8 @@ export const FormRouter = createTRPCRouter({
       if (!exist) {
         throw new TRPCError({
           code: "BAD_REQUEST",
-          message: "Please Check your Inputs"
-        })
+          message: "Please Check your Inputs",
+        });
       }
 
       return ctx.prisma.formSubmission.findMany({
@@ -69,7 +68,7 @@ export const FormRouter = createTRPCRouter({
         select: {
           id: true,
           submittedAt: true,
-        }
+        },
       });
     }),
   getSubmission: protectedProcedure
@@ -80,26 +79,26 @@ export const FormRouter = createTRPCRouter({
           id: input.submissionId,
         },
         select: {
-          formId: true
-        }
+          formId: true,
+        },
       });
       if (!exist) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Please Check your Inputs"
-        })
+          message: "Please Check your Inputs",
+        });
       }
       const formExist = await ctx.prisma.form.count({
         where: {
           id: exist.formId,
-          userId: ctx.session.user.id
+          userId: ctx.session.user.id,
         },
       });
       if (!formExist) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "Please Check your Inputs"
-        })
+          message: "Please Check your Inputs",
+        });
       }
 
       return ctx.prisma.formSubmission.findUnique({
@@ -116,13 +115,12 @@ export const FormRouter = createTRPCRouter({
                   id: true,
                   description: true,
                   type: true,
-                  text: true
+                  text: true,
                 },
-              }
-            }
-          }
+              },
+            },
+          },
         },
-
       });
     }),
   search: protectedProcedure
