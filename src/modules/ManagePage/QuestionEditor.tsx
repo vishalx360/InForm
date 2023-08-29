@@ -11,7 +11,7 @@ import {
   Tag,
   Text,
   Textarea,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
 import { type Question } from "@prisma/client";
 import {
@@ -19,7 +19,7 @@ import {
   Form,
   FormikProvider,
   useFormik,
-  type FieldProps
+  type FieldProps,
 } from "formik";
 import {
   LucideLink,
@@ -64,7 +64,6 @@ export const QuestionTypeTagIconMap = {
     answerHint: "Users can select any one option",
   },
 };
-
 
 export default function QuestionEditor({
   question,
@@ -169,7 +168,7 @@ export default function QuestionEditor({
               )}
             </Field>
             <Field name="description">
-              {({ field, meta, }: FieldProps) => (
+              {({ field, meta }: FieldProps) => (
                 <FormControl id="description">
                   <FormLabel fontSize="sm">Description (optional)</FormLabel>
                   <Textarea
@@ -186,12 +185,11 @@ export default function QuestionEditor({
               )}
             </Field>
 
-            {question.type === "MULTIPLE_CHOICE" && (
-              <OptionsEditor />
-            )}
+            {question.type === "MULTIPLE_CHOICE" && <OptionsEditor />}
             <Box my="2">
               <Text fontStyle="italic">
-                Answer: {QuestionTypeTagIconMap[question.type].answerHint}</Text>
+                Answer: {QuestionTypeTagIconMap[question.type].answerHint}
+              </Text>
             </Box>
             <Field name="reset">
               {({ form }: FieldProps) => (

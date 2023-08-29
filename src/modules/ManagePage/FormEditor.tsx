@@ -11,12 +11,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { type Question } from "@prisma/client";
+import { LucidePlus } from "lucide-react";
 import {
-  LucidePlus
-} from "lucide-react";
-import { default as QuestionEditor, QuestionTypeTagIconMap } from "./QuestionEditor";
+  default as QuestionEditor,
+  QuestionTypeTagIconMap,
+} from "./QuestionEditor";
 export type GetForm = RouterOutputs["form"]["get"];
-
 
 function FormEditor({ form }: { form: GetForm }) {
   if (!form) {
@@ -97,8 +97,7 @@ function AddQuestionButton({ formId }: { formId: string }) {
                 <Icon className="mr-2" /> {value.text}
               </MenuItem>
             );
-          })
-          }
+          })}
         </MenuList>
       </Menu>
     </Box>
