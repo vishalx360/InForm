@@ -8,6 +8,7 @@ import {
   DeleteFormSchema,
   FormSubmissionSchema,
   GetFormSchema,
+  GetSubmissionSchema,
   searchSchema,
 } from "@/utils/ValidationSchema";
 import { TRPCError } from "@trpc/server";
@@ -42,6 +43,86 @@ export const FormRouter = createTRPCRouter({
             },
           },
         },
+      });
+    }),
+  getSubmissions: protectedProcedure
+    .input(GetFormSchema)
+    .query(async ({ ctx, input }) => {
+
+      const exist = await ctx.prisma.form.count({
+        where: {
+          id: input.formId,
+          userId: ctx.session.user.id,
+        },
+      });
+      if (!exist) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Please Check your Inputs"
+        })
+      }
+
+      return ctx.prisma.formSubmission.findMany({
+        where: {
+          formId: input.formId,
+        },
+        select: {
+          id: true,
+          submittedAt: true,
+        }
+      });
+    }),
+  getSubmission: protectedProcedure
+    .input(GetSubmissionSchema)
+    .query(async ({ ctx, input }) => {
+      const exist = await ctx.prisma.formSubmission.findUnique({
+        where: {
+          id: input.submissionId,
+        },
+        select: {
+          formId: true
+        }
+      });
+      if (!exist) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Please Check your Inputs"
+        })
+      }
+      const formExist = await ctx.prisma.form.count({
+        where: {
+          id: exist.formId,
+          userId: ctx.session.user.id
+        },
+      });
+      if (!formExist) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Please Check your Inputs"
+        })
+      }
+
+      return ctx.prisma.formSubmission.findUnique({
+        where: {
+          id: input.submissionId,
+        },
+        include: {
+          responses: {
+            select: {
+              id: true,
+              text: true,
+              question: {
+                select: {
+                  id: true,
+                  description: true,
+                  type: true,
+                  text: true
+                },
+              }
+            }
+          }
+        },
+
       });
     }),
   search: protectedProcedure

@@ -52,10 +52,11 @@ model Response {
 }
 
 model FormSubmission {
-    id        String     @id @default(cuid())
-    formId    String
-    form      Form       @relation(fields: [formId], references: [id])
-    responses Response[]
+    id          String     @id @default(cuid())
+    formId      String
+    form        Form       @relation(fields: [formId], references: [id])
+    responses   Response[]
+    submittedAt DateTime   @default(now())
 }
 
 // Necessary for Next auth

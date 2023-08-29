@@ -39,7 +39,7 @@ export default function SuccessPage() {
             </Button>
           </Box>
 
-          <Stack direction="column" align="center" bg="gray.50" p={6}>
+          <Stack direction="column" align="center" bg="whiteAlpha.100" p={6}>
             <Stack direction="row" align="center">
               <Text>Share this form with others</Text>
 

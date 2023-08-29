@@ -18,7 +18,12 @@ import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
-export default function FormFiller({ FormData }: { FormData: GetForm }) {
+export default function FormFiller(
+  { FormData
+  }
+    : {
+      FormData: GetForm;
+    }) {
   const router = useRouter();
   const successPageLink = `${env.NEXT_PUBLIC_HOST_URL}/success/${FormData?.id}`;
 
