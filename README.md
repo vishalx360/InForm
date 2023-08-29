@@ -1,6 +1,6 @@
 # InForm
 
-Demo: [https://inform.vercel.app/](https://inform.vercel.app)
+Demo: [https://inform-app.vercel.app](https://inform-app.vercel.app)
 
 Solution for Full Stack Developer Assignment | Mercor
 
