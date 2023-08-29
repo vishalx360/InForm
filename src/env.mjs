@@ -24,7 +24,7 @@ export const env = createEnv({
     // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
     GITHUB_CLIENT_ID: z.string(),
     GITHUB_CLIENT_SECRET: z.string(),
-    REDIS_URL: z.string().url(),
+    // REDIS_URL: z.string().url(),
   },
 
   /**
@@ -49,7 +49,7 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
-    REDIS_URL: process.env.REDIS_URL,
+    // REDIS_URL: process.env.REDIS_URL,
     NEXT_PUBLIC_HOST_URL: process.env.NEXT_PUBLIC_HOST_URL,
   },
   /**

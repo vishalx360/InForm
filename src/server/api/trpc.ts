@@ -9,7 +9,7 @@
 
 import { getServerAuthSession } from "@/server/auth";
 import { prisma } from "@/server/db";
-import { redisClient } from "@/utils/redisClient";
+// import { redisClient } from "@/utils/redisClient";
 import { initTRPC, TRPCError } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { type TRPCResponse } from "@trpc/server/rpc";
@@ -46,7 +46,7 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
     res: opts.res,
     session: opts.session,
     prisma,
-    redis: redisClient,
+    // redis: redisClient,
   };
 };
 
