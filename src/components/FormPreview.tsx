@@ -1,3 +1,4 @@
+import { env } from "@/env.mjs";
 import { type GetAllForms } from "@/pages/dashboard";
 import {
   Box,
@@ -6,11 +7,15 @@ import {
   LinkBox,
   LinkOverlay,
   Text,
+  useClipboard,
 } from "@chakra-ui/react";
+import { LucideLink } from "lucide-react";
 import NextLink from "next/link";
 import TimeAgo from "react-timeago";
 
 function FormPreview({ form }: { form: GetAllForms[0] }) {
+  const { onCopy, hasCopied } = useClipboard(`${env.NEXT_PUBLIC_HOST_URL}/form/${form.id}`);
+
   return (
     <LinkBox
       _hover={{ shadow: "md", bg: "whiteAlpha.200" }}
@@ -33,8 +38,9 @@ function FormPreview({ form }: { form: GetAllForms[0] }) {
       <Text noOfLines={2} mb="3">
         {form.description}
       </Text>
-      <Button color="teal.400" fontWeight="bold">
-        Copy Link
+      <Button variant="ghost" size="sm" leftIcon={<LucideLink size="16" />} onClick={onCopy}
+        color="teal.400" fontWeight="bold">
+        {hasCopied ? "Copied!" : "Copy Form Link"}
       </Button>
     </LinkBox>
   );
