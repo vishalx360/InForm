@@ -100,7 +100,7 @@ export function OptionsEditor() {
               ))}
             </VStack>
           ) : (
-            <Alert rounded="xl" status="warning">
+            <Alert rounded="md" status="warning">
               <AlertIcon />
               No options added
             </Alert>
@@ -108,7 +108,7 @@ export function OptionsEditor() {
 
           {options.length > 0 && options.length < 2 && (
             <Box my="2">
-              <Alert size="sm" rounded="xl" status="warning">
+              <Alert size="sm" rounded="md" status="warning">
                 <AlertIcon />
                 Must have at least 2 options
               </Alert>

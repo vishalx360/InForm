@@ -64,9 +64,9 @@ export const FormSubmissionSchema = z.object({
   ),
 });
 
-// export const searchSchemaLocal = z.object({
-//   query: z.string().optional(),
-// });
+export const searchSchema = z.object({
+  query: z.string().optional(),
+});
 
 export const SigninSchema = z.object({
   email: z.string().email(),

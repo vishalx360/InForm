@@ -1,5 +1,9 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { DeleteFormSchema, GetFormSchema } from "@/utils/ValidationSchema";
+import {
+  DeleteFormSchema,
+  GetFormSchema,
+  searchSchema,
+} from "@/utils/ValidationSchema";
 import { DEFAULT_OPTIONS } from "./question";
 
 export const FormRouter = createTRPCRouter({
@@ -19,6 +23,43 @@ export const FormRouter = createTRPCRouter({
       },
     });
   }),
+  search: protectedProcedure
+    .input(searchSchema)
+    .query(async ({ ctx, input }) => {
+      return ctx.prisma.form.findMany({
+        where: {
+          OR: [
+            {
+              title: {
+                contains: input.query,
+                mode: "insensitive",
+              },
+            },
+            {
+              description: {
+                contains: input.query,
+                mode: "insensitive",
+              },
+            },
+          ],
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        select: {
+          _count: true,
+          id: true,
+          createdAt: true,
+          submissions: {
+            select: {
+              _count: true,
+            },
+          },
+          title: true,
+          description: true,
+        },
+      });
+    }),
   getAll: protectedProcedure.query(async ({ ctx }) => {
     return ctx.prisma.form.findMany({
       where: {

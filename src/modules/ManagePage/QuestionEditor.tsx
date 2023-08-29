@@ -132,7 +132,7 @@ export default function QuestionEditor({
   const TagIcon = QuestionTypeTagIconMap[question.type].icon || LucideText;
 
   return (
-    <Box borderWidth="1px" bg="whiteAlpha.200" rounded="xl" p="6">
+    <Box borderWidth="1px" bg="whiteAlpha.200" rounded="md" p="6">
       <HStack justifyContent="space-between">
         <Tag colorScheme="teal" mb="2">
           <TagIcon size="16" className="mr-2" />

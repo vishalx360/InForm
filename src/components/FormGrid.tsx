@@ -35,14 +35,14 @@ function FormGrid({ forms }: { forms: GetAllForms | undefined }) {
 export default FormGrid;
 
 export function FormRowSkeleton({ amount }: { amount: number }) {
-  const MoviesSkeleton = [];
+  const FormSkeleton = [];
   for (let i = 0; i < amount; i++) {
-    MoviesSkeleton.push(<FormPreviewSkeleton key={"skeleton" + i} />);
+    FormSkeleton.push(<FormPreviewSkeleton key={"skeleton" + i} />);
   }
   return (
     <div className="mb-8">
       <h1 className="mb-4 text-2xl font-medium capitalize">Loading...</h1>
-      <div className="flex flex-wrap items-center gap-5">{MoviesSkeleton}</div>
+      <div className="flex flex-wrap items-center gap-5">{FormSkeleton}</div>
     </div>
   );
 }

@@ -1,10 +1,9 @@
-import { searchSchemaLocal } from "@/utils/ValidationSchema";
-import { ErrorMessage, Field, Form, Formik, type FieldProps } from "formik";
-import { Search } from "lucide-react";
+import { searchSchema } from "@/utils/ValidationSchema";
+import { Button, Input } from "@chakra-ui/react";
+import { Field, Form, Formik, type FieldProps } from "formik";
+import { LucideSearch } from "lucide-react";
 import { useRouter } from "next/router";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 
 export function SearchInput() {
   const router = useRouter();
@@ -18,7 +17,7 @@ export function SearchInput() {
     <div>
       <Formik
         initialValues={{ query: router.query?.query ?? "" }}
-        validationSchema={toFormikValidationSchema(searchSchemaLocal)}
+        validationSchema={toFormikValidationSchema(searchSchema)}
         onSubmit={async (values) => {
           if (values.query === "") {
             await router.push(`/dashboard`);
@@ -32,7 +31,9 @@ export function SearchInput() {
             <Field name="query">
               {({ field }: FieldProps) => (
                 <Input
-                  className="rounded-xl px-5"
+                  size="sm"
+                  rounded="md"
+                  px="5"
                   type="text"
                   placeholder="Search for a movie"
                   id="query"
@@ -40,13 +41,22 @@ export function SearchInput() {
                 />
               )}
             </Field>
-            <Button size="sm" type="submit" LeftIcon={Search} className="px-5">
+            <Button
+              colorScheme="teal"
+              variant="solid"
+              size="sm"
+              rounded="md"
+              type="submit"
+              leftIcon={<LucideSearch size="15" />}
+              px="10"
+            >
               Search
             </Button>
           </div>
-          <div className="ml-2 mt-2 text-sm text-red-500">
+
+          {/* <div className="ml-2 mt-2 text-sm text-red-500">
             <ErrorMessage name="name" />
-          </div>
+          </div> */}
         </Form>
       </Formik>
     </div>
