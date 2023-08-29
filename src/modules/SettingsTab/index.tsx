@@ -4,16 +4,19 @@ import { api } from "@/utils/api";
 import {
   Box,
   Button,
+  Divider,
   FormControl,
   FormLabel,
   HStack,
   Input,
   Stack,
+  Text,
   Textarea,
   useToast,
 } from "@chakra-ui/react";
 import { Field, Form, Formik, type FieldProps } from "formik";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import DeleteFormSection from "./DeleteFormSection";
 
 export default function SettingsTab({ FormData }: { FormData: GetForm }) {
   const utils = api.useContext();
@@ -58,6 +61,9 @@ export default function SettingsTab({ FormData }: { FormData: GetForm }) {
 
   return (
     <div>
+      <Text fontWeight="bold">Edit Form Details</Text>
+      <Divider my="3" />
+
       <Formik
         initialValues={{
           formId: FormData.id,
@@ -107,7 +113,7 @@ export default function SettingsTab({ FormData }: { FormData: GetForm }) {
                     autoComplete="off"
                     placeholder="Form Description"
                     required
-                    size="lg"
+                    // size="lg"
                     {...field}
                   />
                   {meta.touched && meta.error && (
@@ -122,23 +128,22 @@ export default function SettingsTab({ FormData }: { FormData: GetForm }) {
             <Field name="reset">
               {({ form }: FieldProps) => (
                 <FormControl id="reset">
-                  {form.dirty && Object.keys(form.errors).length === 0 && (
-                    <HStack>
-                      <Button
-                        isLoading={UpdateFormMutation.isLoading}
-                        colorScheme="teal"
-                        type="submit"
-                      >
-                        Save Changes
-                      </Button>
-                    </HStack>
-                  )}
+                  <Button
+                    isDisabled={!form.isValid}
+                    isLoading={UpdateFormMutation.isLoading}
+                    colorScheme="teal"
+                    type="submit"
+                  >
+                    Save Changes
+                  </Button>
                 </FormControl>
               )}
             </Field>
           </Stack>
         </Form>
       </Formik>
+
+      <DeleteFormSection formId={FormData.id} />
     </div>
   );
 }

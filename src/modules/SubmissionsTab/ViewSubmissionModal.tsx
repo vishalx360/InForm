@@ -66,7 +66,15 @@ export default function ViewSubmissionModal({
                     {" "}
                     Submitted : <ReactTimeago date={submission.submittedAt} />
                   </Text>
+                  <Text fontSize="sm" color={"CaptionText"}>
+                    Note: Please be aware that if you delete the original
+                    question at the time of this response submission, you will
+                    only have access to the answer without the context.
+                  </Text>
                 </Box>
+                {/* <pre>
+                  {JSON.stringify(submission?.responses, null, 2)}
+                </pre> */}
                 <Stack
                   p="5"
                   maxH={"70vh"}
@@ -100,31 +108,41 @@ type ResponseType = {
     id: string;
     description: string | null;
     text: string;
-  };
-  text: string;
+  } | null;
   id: string;
+  text: string;
 };
 function ResponseBox({ response }: { response: ResponseType }) {
   const question = response.question;
-  const TagIcon = QuestionTypeTagIconMap[question.type].icon || LucideText;
+  const TagIcon = question
+    ? QuestionTypeTagIconMap[question.type].icon
+    : LucideText;
 
   return (
     <Box borderWidth="1px" bg="whiteAlpha.200" rounded="md" p="4">
-      <HStack justifyContent="space-between">
-        <Tag colorScheme="teal" mb="2">
-          <TagIcon size="16" className="mr-2" />
-          {QuestionTypeTagIconMap[question.type].text}
+      {question ? (
+        <>
+          <HStack justifyContent="space-between">
+            <Tag colorScheme="teal" mb="2">
+              <TagIcon size="16" className="mr-2" />
+              {QuestionTypeTagIconMap[question.type]?.text}
+            </Tag>
+          </HStack>
+          <Stack dir="col" gap="2">
+            <Text>{question.text}</Text>
+            {question.description && (
+              <Text fontSize="sm" color={"GrayText"}>
+                {question.description}
+              </Text>
+            )}
+          </Stack>
+        </>
+      ) : (
+        <Tag colorScheme="red" mb="2">
+          <Text color={"CaptionText"}>Question was deleted</Text>
         </Tag>
-      </HStack>
-      <Stack dir="col" gap="2">
-        <Text>{question.text}</Text>
-        {question.description && (
-          <Text fontSize="sm" color={"GrayText"}>
-            {question.description}
-          </Text>
-        )}
-        <Text color={"CaptionText"}>Answer: {response.text}</Text>
-      </Stack>
+      )}
+      <Text color={"CaptionText"}>Answer: {response.text}</Text>
     </Box>
   );
 }

@@ -80,7 +80,7 @@ function FormManagePage() {
                   {hasCopied ? "Copied!" : "Copy Form Link"}
                 </Button>
               </HStack>
-              <Box>
+              <Box my="4">
                 <Heading>{FormData?.title}</Heading>
                 <Text mt="3" fontSize="md">
                   {FormData?.description}

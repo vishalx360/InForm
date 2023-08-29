@@ -70,6 +70,9 @@ export const FormRouter = createTRPCRouter({
           id: true,
           submittedAt: true,
         },
+        orderBy: {
+          submittedAt: "desc",
+        },
       });
     }),
   getSubmission: protectedProcedure

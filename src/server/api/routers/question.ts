@@ -48,9 +48,13 @@ export const QuestionRouter = createTRPCRouter({
   delete: protectedProcedure
     .input(DeleteQuestionSchema)
     .mutation(async ({ ctx, input }) => {
+      // check for form
       return ctx.prisma.question.delete({
         where: {
           id: input.questionId,
+          form: {
+            userId: ctx.session.user.id,
+          },
         },
       });
     }),

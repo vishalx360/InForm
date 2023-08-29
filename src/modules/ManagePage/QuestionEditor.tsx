@@ -118,10 +118,10 @@ export default function QuestionEditor({
           questions: NewQuestion,
         } as GetForm;
       });
-      toast({
-        title: "Updated Question",
-        status: "info",
-      });
+      // toast({
+      //   title: "Updated Question",
+      //   status: "info",
+      // });
       formik.resetForm({
         values: {
           type: data.type,

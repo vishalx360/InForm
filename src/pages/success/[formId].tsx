@@ -34,7 +34,16 @@ export default function SuccessPage() {
 
             <Text>Want to submit another response?</Text>
 
-            <Button variant="link" colorScheme="teal" mt={2}>
+            <Button
+              onClick={() => {
+                router.push(formLink).catch((err) => {
+                  console.log(err);
+                });
+              }}
+              variant="link"
+              colorScheme="teal"
+              mt={2}
+            >
               Click here
             </Button>
           </Box>

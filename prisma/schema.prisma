@@ -45,16 +45,16 @@ model Question {
 model Response {
     id           String         @id @default(cuid())
     text         String
-    questionId   String
-    question     Question       @relation(fields: [questionId], references: [id])
+    questionId   String?
+    question     Question?      @relation(fields: [questionId], references: [id], onDelete: SetNull)
     submissionId String
-    submission   FormSubmission @relation(fields: [submissionId], references: [id])
+    submission   FormSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
 }
 
 model FormSubmission {
     id          String     @id @default(cuid())
     formId      String
-    form        Form       @relation(fields: [formId], references: [id])
+    form        Form       @relation(fields: [formId], references: [id], onDelete: Cascade)
     responses   Response[]
     submittedAt DateTime   @default(now())
 }
