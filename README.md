@@ -1,8 +1,10 @@
 # InForm
 
+![poster](./public/diagrams/poster.png)
+
 Demo: [https://inform-app.vercel.app](https://inform-app.vercel.app)
 
-Solution for Full Stack Developer Assignment | Mercor
+**Solution for Full Stack Developer Assignment | Mercor**
 
 A web application that allows users to create forms and take surveys.
 
@@ -41,13 +43,13 @@ Want to setup locally ? follow [Setup Instructions](/Setup-Instruction.md)
 
 ## Screenshots
 
-|                Form Fill Up Page                 |               Form Editor Page                |
-| :----------------------------------------------: | :-------------------------------------------: |
-| ![dashboard](./public/diagrams/FillFormPage.png) | ![details](./public/diagrams/FormManager.png) |
+|                  Form Fill Up Page                  |                 Form Editor Page                  |
+| :-------------------------------------------------: | :-----------------------------------------------: |
+| ![FillFormPage](./public/diagrams/FillFormPage.png) | ![FormManager](./public/diagrams/FormManager.png) |
 
-|              Form Submissions Page              |               Dashboard Page                |
-| :---------------------------------------------: | :-----------------------------------------: |
-| ![dashboard](./public/diagrams/Submissions.png) | ![details](./public/diagrams/dashboard.png) |
+|               Form Submissions Page               |                Dashboard Page                 |
+| :-----------------------------------------------: | :-------------------------------------------: |
+| ![Submissions](./public/diagrams/Submissions.png) | ![dashboard](./public/diagrams/dashboard.png) |
 
 ## Tech Stack
 
