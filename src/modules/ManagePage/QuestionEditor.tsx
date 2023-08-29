@@ -14,6 +14,7 @@ import {
   Input,
   Stack,
   Tag,
+  Text,
   Textarea,
   VStack,
   useToast,
@@ -51,24 +52,25 @@ export const QuestionTypeTagIconMap = {
   TEXT: {
     text: "Text",
     icon: LucideText,
+    answerHint: "Users can enter any text",
   },
   EMAIL: {
     text: "Email",
     icon: LucideMail,
+    answerHint: "Users can enter any email address",
   },
   URL: {
     text: "URL",
     icon: LucideLink,
+    answerHint: "Users can enter any URL",
   },
   MULTIPLE_CHOICE: {
     text: "Multiple Choice",
     icon: LucideListTodo,
+    answerHint: "Users can select any one option",
   },
 };
 
-function getReadableQuestionType(type: Question["type"]) {
-  return QuestionTypeTagIconMap[type].text || "Unknown";
-}
 
 export default function QuestionEditor({
   question,
@@ -276,6 +278,10 @@ export default function QuestionEditor({
                 )}
               </FieldArray>
             )}
+            <Box my="2">
+              <Text fontStyle="italic">
+                Answer: {QuestionTypeTagIconMap[question.type].answerHint}</Text>
+            </Box>
             <Field name="reset">
               {({ field, meta, form }: FieldProps) => (
                 <FormControl id="reset">
@@ -358,7 +364,7 @@ function DeleteQuestionButton({
       isLoading={DeleteQuestionMutation.isLoading}
       size="xs"
       variant="outline"
-      // leftIcon={<LucideTrash />}
+    // leftIcon={<LucideTrash />}
     >
       Remove Question
     </Button>
