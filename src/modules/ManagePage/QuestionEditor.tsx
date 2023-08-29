@@ -1,34 +1,25 @@
 import { UpdateQuestionSchemaLocal } from "@/utils/ValidationSchema";
 import { api } from "@/utils/api";
-import { DeleteIcon } from "@chakra-ui/icons";
 import {
-  Alert,
-  AlertIcon,
   Box,
   Button,
   FormControl,
-  FormErrorMessage,
   FormLabel,
   HStack,
-  IconButton,
   Input,
   Stack,
   Tag,
   Text,
   Textarea,
-  VStack,
-  useToast,
+  useToast
 } from "@chakra-ui/react";
 import { type Question } from "@prisma/client";
 import {
-  ErrorMessage,
   Field,
-  FieldArray,
   Form,
   FormikProvider,
   useFormik,
-  type FieldArrayRenderProps,
-  type FieldProps,
+  type FieldProps
 } from "formik";
 import {
   LucideLink,
@@ -37,12 +28,15 @@ import {
   LucideText,
 } from "lucide-react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import DeleteQuestionButton from "./DeleteQuestionBtn";
 import { type GetForm } from "./FormEditor";
+import { OptionsEditor } from "./OptionsEditor";
 
-type QuestionType = {
+export type QuestionType = {
   id: string;
   text: string;
-  description: string | null;
+  order: number;
+  description: string | null | undefined;
   type: Question["type"];
   options: string[];
   formId: string;
@@ -82,7 +76,7 @@ export default function QuestionEditor({
     questionId: question.id,
     text: question.text,
     options: question.options,
-    description: question.description,
+    description: question.description ?? undefined,
   };
   const formik = useFormik({
     initialValues,
@@ -107,7 +101,7 @@ export default function QuestionEditor({
         description: "There was a problem with your request.",
       });
     },
-    onSuccess(data: QuestionType) {
+    onSuccess(data) {
       utils.form.get.setData({ formId: question.formId }, (previousForm) => {
         if (!previousForm) return previousForm;
         const NewQuestion = previousForm.questions.map((question) => {
@@ -131,7 +125,7 @@ export default function QuestionEditor({
           questionId: data.id,
           options: data.options,
           text: data.text,
-          description: data.description,
+          description: data.description ?? undefined,
         },
       });
     },
@@ -154,7 +148,7 @@ export default function QuestionEditor({
         <Form onReset={formik.handleReset} onSubmit={formik.handleSubmit}>
           <Stack dir="col" gap="2">
             <Field name="text">
-              {({ field, meta, form }: FieldProps) => (
+              {({ field, meta }: FieldProps) => (
                 <FormControl id="text">
                   {/* <pre>{JSON.stringify(form.errors, null, 2)}</pre> */}
                   <FormLabel fontSize="sm">Question</FormLabel>
@@ -175,7 +169,7 @@ export default function QuestionEditor({
               )}
             </Field>
             <Field name="description">
-              {({ field, meta, form }: FieldProps) => (
+              {({ field, meta, }: FieldProps) => (
                 <FormControl id="description">
                   <FormLabel fontSize="sm">Description (optional)</FormLabel>
                   <Textarea
@@ -193,97 +187,14 @@ export default function QuestionEditor({
             </Field>
 
             {question.type === "MULTIPLE_CHOICE" && (
-              <FieldArray name="options">
-                {({ push, remove, form }: FieldArrayRenderProps) => (
-                  <FormControl id="options">
-                    <FormLabel fontSize="sm">Options</FormLabel>
-                    {form.values?.options?.length > 0 ? (
-                      <VStack alignItems="start" spacing="1">
-                        {form.values.options.map((option, index) => (
-                          <FormControl
-                            id={`options[${index}]`}
-                            key={index}
-                            isInvalid={
-                              form.touched &&
-                              form.touched.options &&
-                              form.touched.options[index] &&
-                              form.errors?.options?.[index]
-                            }
-                          >
-                            <HStack>
-                              <Input
-                                autoComplete="off"
-                                name={`options[${index}]`}
-                                value={option}
-                                placeholder={`Option ${index + 1}`}
-                                onChange={(event) => {
-                                  form.setFieldValue(
-                                    `options[${index}]`,
-                                    event.target.value
-                                  );
-                                  form.setTouched({
-                                    ...form.touched,
-                                    options: {
-                                      ...form.touched.options,
-                                      [index]: true,
-                                    },
-                                  });
-                                }}
-                              />
-                              <IconButton
-                                aria-label="Delete Option"
-                                type="button"
-                                variant={"outline"}
-                                colorScheme="red"
-                                icon={<DeleteIcon />}
-                                onClick={() => remove(index)}
-                                ml="2"
-                              />
-                            </HStack>
-                            <ErrorMessage
-                              name={`options[${index}]`}
-                              component={FormErrorMessage}
-                            />
-                          </FormControl>
-                        ))}
-                      </VStack>
-                    ) : (
-                      <Alert rounded="xl" status="warning">
-                        <AlertIcon />
-                        No options added
-                      </Alert>
-                    )}
-
-                    {form.values?.options?.length > 0 &&
-                      form.values?.options?.length < 2 && (
-                        <Box my="2">
-                          <Alert size="sm" rounded="xl" status="warning">
-                            <AlertIcon />
-                            Must have at least 2 options
-                          </Alert>
-                        </Box>
-                      )}
-                    {form.values?.options?.length < 4 && (
-                      <Button
-                        mt="2"
-                        variant="outline"
-                        size="sm"
-                        type="button"
-                        onClick={() => push("")}
-                      >
-                        Add Option
-                      </Button>
-                    )}
-                  </FormControl>
-                )}
-              </FieldArray>
+              <OptionsEditor />
             )}
             <Box my="2">
               <Text fontStyle="italic">
                 Answer: {QuestionTypeTagIconMap[question.type].answerHint}</Text>
             </Box>
             <Field name="reset">
-              {({ field, meta, form }: FieldProps) => (
+              {({ form }: FieldProps) => (
                 <FormControl id="reset">
                   {form.dirty && Object.keys(form.errors).length === 0 && (
                     <HStack justifyContent={"flex-end"}>
@@ -313,60 +224,5 @@ export default function QuestionEditor({
         </Form>
       </FormikProvider>
     </Box>
-  );
-}
-
-function DeleteQuestionButton({
-  questionId,
-  formId,
-}: {
-  questionId: string;
-  formId: string;
-}) {
-  const utils = api.useContext();
-  const DeleteQuestionMutation = api.question.delete.useMutation();
-  const toast = useToast();
-  const HandelDelete = () => {
-    DeleteQuestionMutation.mutate(
-      { questionId },
-      {
-        onError(error) {
-          console.log(error);
-          toast({
-            status: "error",
-            title: error.message ?? "Uh oh! Something went wrong.",
-            description: "There was a problem with your request.",
-            // action: <ToastAction altText="Try again">Try again</ToastAction>,
-          });
-        },
-        onSuccess(data) {
-          utils.form.get.setData({ formId }, (previousForm) => {
-            if (!previousForm) return previousForm;
-            return {
-              ...previousForm,
-              questions: previousForm.questions.filter(
-                (question) => question.id !== questionId
-              ),
-            } as GetForm;
-          });
-          toast({
-            title: "Deleted Question",
-            status: "info",
-          });
-        },
-      }
-    );
-  };
-  return (
-    <Button
-      onClick={HandelDelete}
-      colorScheme="red"
-      isLoading={DeleteQuestionMutation.isLoading}
-      size="xs"
-      variant="outline"
-    // leftIcon={<LucideTrash />}
-    >
-      Remove Question
-    </Button>
   );
 }
