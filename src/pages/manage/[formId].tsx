@@ -1,8 +1,9 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import { env } from "@/env.mjs";
 import FormEditor from "@/modules/ManagePage/FormEditor";
+import SettingsTab from "@/modules/SettingsTab";
 import SubmissionsTab from "@/modules/SubmissionsTab";
-import { type RouterOutputs, api } from "@/utils/api";
+import { api, type RouterOutputs } from "@/utils/api";
 import {
   Box,
   Button,
@@ -18,12 +19,7 @@ import {
   Text,
   useClipboard,
 } from "@chakra-ui/react";
-import {
-  LucideArrowLeft,
-  LucideLink,
-  LucideLoader,
-  LucidePencil,
-} from "lucide-react";
+import { LucideArrowLeft, LucideLink, LucideLoader } from "lucide-react";
 import { type GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
 import Error from "next/error";
@@ -105,7 +101,7 @@ function FormManagePage() {
                   <SubmissionsTab formId={FormData.id} />
                 </TabPanel>
                 <TabPanel>
-                  <p>three!</p>
+                  <SettingsTab FormData={FormData} />
                 </TabPanel>
               </TabPanels>
             </Tabs>

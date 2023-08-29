@@ -163,7 +163,7 @@ export default function SimpleCard() {
                   Already have an account ?{" "}
                   <Link
                     href="/signin"
-                    className="font-medium text-black hover:underline dark:text-blue-500"
+                    className="font-medium text-black hover:underline dark:text-teal-500"
                   >
                     Sign In
                   </Link>

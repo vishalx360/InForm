@@ -30,7 +30,7 @@ const SubmissionsTable = ({ submissions }: { submissions: GetSubmissions }) => {
         {submissions.map((submission) => (
           <Tr key={submission.id}>
             <Td>
-              <ReactTimeago date={submission.submittedAt } />
+              <ReactTimeago date={submission.submittedAt} />
             </Td>
             <Td>{submission.id}</Td>
             <Td>

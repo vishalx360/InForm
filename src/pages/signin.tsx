@@ -169,7 +169,7 @@ export default function SimpleCard() {
                     Dont have an account yet ?{" "}
                     <Link
                       href="/signup"
-                      className="font-medium text-black hover:underline dark:text-blue-500"
+                      className="font-medium text-black hover:underline dark:text-teal-500"
                     >
                       Sign Up
                     </Link>

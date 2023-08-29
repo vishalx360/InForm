@@ -16,7 +16,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { type $Enums } from "@prisma/client";
-import { LucideText } from "lucide-react";
+import { LucideEye, LucideLoader, LucideText } from "lucide-react";
 import Error from "next/error";
 import ReactTimeago from "react-timeago";
 import { QuestionTypeTagIconMap } from "../ManagePage/QuestionEditor";
@@ -44,24 +44,27 @@ export default function ViewSubmissionModal({
   }
   return (
     <>
-      <Button variant="link" onClick={onOpen}>
+      <Button variant="link" leftIcon={<LucideEye />} onClick={onOpen}>
         View Submission
       </Button>
       <Modal isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent maxW={"4xl"}>
-          <ModalHeader>Submission</ModalHeader>
+          <ModalHeader>Submission Details</ModalHeader>
           <ModalCloseButton />
           <ModalBody p="0">
             {isLoading || !submission ? (
-              <Box p="10">Loading...</Box>
+              <div className="flex h-52 items-center justify-center">
+                <div className="animate-spin ">
+                  <LucideLoader />
+                </div>
+              </div>
             ) : (
               <Box>
                 <Box px="6">
                   <Text fontSize="sm" color={"CaptionText"}>
                     {" "}
-                    Submitted :{" "}
-                    <ReactTimeago date={submission.submittedAt } />
+                    Submitted : <ReactTimeago date={submission.submittedAt} />
                   </Text>
                 </Box>
                 <Stack
@@ -82,7 +85,7 @@ export default function ViewSubmissionModal({
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button colorScheme="teal" mr={3} onClick={onClose}>
               Close
             </Button>
           </ModalFooter>

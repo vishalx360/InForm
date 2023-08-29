@@ -9,6 +9,7 @@ import {
   FormSubmissionSchema,
   GetFormSchema,
   GetSubmissionSchema,
+  UpdateFormSchema,
   searchSchema,
 } from "@/utils/ValidationSchema";
 import { TRPCError } from "@trpc/server";
@@ -199,6 +200,19 @@ export const FormRouter = createTRPCRouter({
       },
     });
   }),
+  update: protectedProcedure
+    .input(UpdateFormSchema)
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.form.update({
+        where: {
+          id: input.formId,
+        },
+        data: {
+          title: input.title,
+          description: input.description,
+        },
+      });
+    }),
   delete: protectedProcedure
     .input(DeleteFormSchema)
     .mutation(async ({ ctx, input }) => {
