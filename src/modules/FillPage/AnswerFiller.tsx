@@ -8,22 +8,16 @@ import {
   Stack,
   Tag,
   Text,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
+import { Field, type FieldProps } from "formik";
+import { LucideText } from "lucide-react";
 import {
-  Field,
-  type FieldProps
-} from "formik";
-import {
-  LucideText
-} from "lucide-react";
-import { QuestionType, QuestionTypeTagIconMap } from "../ManagePage/QuestionEditor";
+  QuestionTypeTagIconMap,
+  type QuestionType,
+} from "../ManagePage/QuestionEditor";
 
-export default function AnswerFiller({
-  question,
-}: {
-  question: QuestionType;
-}) {
+export default function AnswerFiller({ question }: { question: QuestionType }) {
   const TagIcon = QuestionTypeTagIconMap[question.type].icon || LucideText;
   return (
     <Box borderWidth="1px" bg="whiteAlpha.200" rounded="md" p="6">
@@ -34,33 +28,29 @@ export default function AnswerFiller({
         </Tag>
       </HStack>
       <Stack dir="col" gap="2">
-        {question.text && (
-          <Text>
-            {question.text}
-          </Text>
-        )}
+        {question.text && <Text>{question.text}</Text>}
         {question.description && (
-          <Text color={"GrayText"}>
-            {question.description}
-          </Text>
+          <Text color={"GrayText"}>{question.description}</Text>
         )}
-        {question.type === "MULTIPLE_CHOICE" ?
+        {question.type === "MULTIPLE_CHOICE" ? (
           <Box>
             <Field name={question.id}>
               {({ field, meta, form }: FieldProps) => (
-                <FormControl id={question.id}
+                <FormControl
+                  id={question.id}
                   isInvalid={Boolean(meta.touched && meta.error)}
                   onChange={(event) => {
-                    form.setFieldValue(question.id, event.target.value).catch((err) => {
-                      console.log(err);
-                    }
-                    );
+                    form
+                      .setFieldValue(question.id, event.target.value)
+                      .catch((err) => {
+                        console.log(err);
+                      });
                   }}
                 >
                   <RadioGroup colorScheme="teal">
-                    <pre>
+                    {/* <pre>
                       {JSON.stringify(form.values, null, 2)}
-                    </pre>
+                    </pre> */}
                     <VStack align="start" spacing={2}>
                       {question?.options.map((option, index) => (
                         <Radio key={index} value={option}>
@@ -77,13 +67,13 @@ export default function AnswerFiller({
                 </FormControl>
               )}
             </Field>
-
           </Box>
-          :
+        ) : (
           <Box>
             <Field name={question.id}>
               {({ field, meta, form }: FieldProps) => (
-                <FormControl id={question.id}
+                <FormControl
+                  id={question.id}
                   isInvalid={Boolean(meta.touched && meta.error)}
                 >
                   <Input
@@ -93,7 +83,6 @@ export default function AnswerFiller({
                     required
                     // size="lg"
                     {...field}
-
                   />
                   {meta.touched && meta.error && (
                     <p className="ml-2 mt-2 text-sm text-red-500">
@@ -104,7 +93,7 @@ export default function AnswerFiller({
               )}
             </Field>
           </Box>
-        }
+        )}
       </Stack>
     </Box>
   );

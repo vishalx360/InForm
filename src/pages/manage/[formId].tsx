@@ -21,7 +21,6 @@ import Error from "next/error";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 
-
 function FormManagePage() {
   const router = useRouter();
   const { data: FormData, error } = api.form.get.useQuery(

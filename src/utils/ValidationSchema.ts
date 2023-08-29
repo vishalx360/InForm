@@ -55,7 +55,7 @@ export const DeleteQuestionSchema = z.object({
 
 export const FormSubmissionSchema = z.object({
   formId: z.string(),
-  responses: z.record(z.any())
+  responses: z.record(z.any()),
 });
 
 export const searchSchema = z.object({

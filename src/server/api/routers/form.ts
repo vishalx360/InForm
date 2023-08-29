@@ -1,5 +1,9 @@
 import { responseSchemaGenerator } from "@/lib/utils";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
 import {
   DeleteFormSchema,
   FormSubmissionSchema,
@@ -26,18 +30,20 @@ export const FormRouter = createTRPCRouter({
       },
     });
   }),
-  getPublicForm: publicProcedure.input(GetFormSchema).query(async ({ ctx, input }) => {
-    return ctx.prisma.form.findUnique({
-      where: { id: input.formId },
-      include: {
-        questions: {
-          orderBy: {
-            order: "asc",
+  getPublicForm: publicProcedure
+    .input(GetFormSchema)
+    .query(async ({ ctx, input }) => {
+      return ctx.prisma.form.findUnique({
+        where: { id: input.formId },
+        include: {
+          questions: {
+            orderBy: {
+              order: "asc",
+            },
           },
         },
-      },
-    });
-  }),
+      });
+    }),
   search: protectedProcedure
     .input(searchSchema)
     .query(async ({ ctx, input }) => {
@@ -128,16 +134,16 @@ export const FormRouter = createTRPCRouter({
   fill: publicProcedure
     .input(FormSubmissionSchema)
     .mutation(async ({ ctx, input }) => {
-      // fetch questions 
+      // fetch questions
       const questions = await ctx.prisma.question.findMany({
         where: {
-          formId: input.formId
+          formId: input.formId,
         },
         select: {
           id: true,
-          type: true
-        }
-      })
+          type: true,
+        },
+      });
 
       // validate answers
       const schmea = responseSchemaGenerator(questions);

@@ -22,6 +22,7 @@ import { Field, Form, Formik, type FieldProps } from "formik";
 import { LucideArrowRight } from "lucide-react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
+import DashboardLayout from "@/components/DashboardLayout";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -64,120 +65,122 @@ export default function SimpleCard() {
     [router, toast]
   );
   return (
-    <Flex
-      minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
-    >
-      <Head>
-        <title>InForm | Sign in</title>
-      </Head>
-      <Stack spacing={8} mx={"auto"} w="lg" maxW={"lg"} py={12} px={6}>
-        <Stack align={"center"}>
-          <Heading fontSize={"4xl"}>Sign in</Heading>
-          <Text fontSize={"lg"} color={"gray.600"}>
-            To manage your forms
-          </Text>
-        </Stack>
-        <Box
-          rounded={"lg"}
-          bg={useColorModeValue("white", "gray.700")}
-          boxShadow={"lg"}
-          p={8}
-        >
-          <Formik
-            initialValues={{
-              email: "",
-              password: "",
-            }}
-            validationSchema={toFormikValidationSchema(SigninSchema)}
-            onSubmit={handelCredentialSignin}
+    <DashboardLayout>
+      <Flex
+        minH={"100vh"}
+        align={"center"}
+        justify={"center"}
+        bg={useColorModeValue("gray.50", "gray.800")}
+      >
+        <Head>
+          <title>InForm | Sign in</title>
+        </Head>
+        <Stack spacing={8} mx={"auto"} w="lg" maxW={"lg"} py={12} px={6}>
+          <Stack align={"center"}>
+            <Heading fontSize={"4xl"}>Sign in</Heading>
+            <Text fontSize={"lg"} color={"gray.600"}>
+              To manage your forms
+            </Text>
+          </Stack>
+          <Box
+            rounded={"lg"}
+            bg={useColorModeValue("white", "gray.700")}
+            boxShadow={"lg"}
+            p={8}
           >
-            <Form className="space-y-4 md:space-y-6">
-              <Stack spacing={4}>
-                <Field name="email">
-                  {({ field, meta }: FieldProps) => (
-                    <FormControl id="email">
-                      <FormLabel>Email</FormLabel>
-                      <Input
-                        type="email"
-                        placeholder="name@company.com"
-                        required
-                        {...field}
-                      />
-                      {meta.touched && meta.error && (
-                        <p className="ml-2 mt-2 text-sm text-red-500">
-                          {meta.error}
-                        </p>
-                      )}
-                    </FormControl>
-                  )}
-                </Field>
-                <Field name="password">
-                  {({ field, meta }: FieldProps) => (
-                    <FormControl id="password">
-                      <FormLabel>Password</FormLabel>
-                      <Input
-                        type="password"
-                        placeholder="password"
-                        required
-                        {...field}
-                      />
-                      {meta.touched && meta.error && (
-                        <p className="ml-2 mt-2 text-sm text-red-500">
-                          {meta.error}
-                        </p>
-                      )}
-                    </FormControl>
-                  )}
-                </Field>
-                <Stack spacing={10}>
-                  <Stack
-                    direction={{ base: "column", sm: "row" }}
-                    align={"start"}
-                    justify={"space-between"}
-                  >
-                    <Checkbox>Remember me</Checkbox>
-                    <Text color={"teal.400"}>Forgot password?</Text>
+            <Formik
+              initialValues={{
+                email: "",
+                password: "",
+              }}
+              validationSchema={toFormikValidationSchema(SigninSchema)}
+              onSubmit={handelCredentialSignin}
+            >
+              <Form className="space-y-4 md:space-y-6">
+                <Stack spacing={4}>
+                  <Field name="email">
+                    {({ field, meta }: FieldProps) => (
+                      <FormControl id="email">
+                        <FormLabel>Email</FormLabel>
+                        <Input
+                          type="email"
+                          placeholder="name@company.com"
+                          required
+                          {...field}
+                        />
+                        {meta.touched && meta.error && (
+                          <p className="ml-2 mt-2 text-sm text-red-500">
+                            {meta.error}
+                          </p>
+                        )}
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Field name="password">
+                    {({ field, meta }: FieldProps) => (
+                      <FormControl id="password">
+                        <FormLabel>Password</FormLabel>
+                        <Input
+                          type="password"
+                          placeholder="password"
+                          required
+                          {...field}
+                        />
+                        {meta.touched && meta.error && (
+                          <p className="ml-2 mt-2 text-sm text-red-500">
+                            {meta.error}
+                          </p>
+                        )}
+                      </FormControl>
+                    )}
+                  </Field>
+                  <Stack spacing={10}>
+                    <Stack
+                      direction={{ base: "column", sm: "row" }}
+                      align={"start"}
+                      justify={"space-between"}
+                    >
+                      <Checkbox>Remember me</Checkbox>
+                      <Text color={"teal.400"}>Forgot password?</Text>
+                    </Stack>
+                    <Button
+                      type="submit"
+                      colorScheme="teal"
+                      leftIcon={<LucideArrowRight />}
+                      isLoading={isLoading}
+                      loadingText="Checking credentials..."
+                    >
+                      Sign in
+                    </Button>
                   </Stack>
                   <Button
-                    type="submit"
-                    colorScheme="teal"
-                    leftIcon={<LucideArrowRight />}
-                    isLoading={isLoading}
-                    loadingText="Checking credentials..."
+                    onClick={() => {
+                      void handelOauthSignin("github");
+                    }}
+                    variant="outline"
+                    // className="text-md flex w-full items-center justify-center gap-4"
+                    size="md"
+                    leftIcon={<FaGithub />}
                   >
-                    Sign in
+                    Continue with Github
                   </Button>
-                </Stack>
-                <Button
-                  onClick={() => {
-                    void handelOauthSignin("github");
-                  }}
-                  variant="outline"
-                  // className="text-md flex w-full items-center justify-center gap-4"
-                  size="md"
-                  leftIcon={<FaGithub />}
-                >
-                  Continue with Github
-                </Button>
 
-                <p className="text-sm font-normal text-neutral-500 dark:text-neutral-400">
-                  Dont have an account yet ?{" "}
-                  <Link
-                    href="/signup"
-                    className="font-medium text-black hover:underline dark:text-blue-500"
-                  >
-                    Sign Up
-                  </Link>
-                </p>
-              </Stack>
-            </Form>
-          </Formik>
-        </Box>
-      </Stack>
-    </Flex>
+                  <p className="text-sm font-normal text-neutral-500 dark:text-neutral-400">
+                    Dont have an account yet ?{" "}
+                    <Link
+                      href="/signup"
+                      className="font-medium text-black hover:underline dark:text-blue-500"
+                    >
+                      Sign Up
+                    </Link>
+                  </p>
+                </Stack>
+              </Form>
+            </Formik>
+          </Box>
+        </Stack>
+      </Flex>
+    </DashboardLayout>
   );
 }
 

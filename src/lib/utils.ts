@@ -1,5 +1,5 @@
 import { type QuestionType } from "@/modules/ManagePage/QuestionEditor";
-import { Question } from "@prisma/client";
+import { type Question } from "@prisma/client";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
@@ -13,7 +13,7 @@ type ResponseGeneratorType = {
 } & Partial<Question>;
 
 export function responseSchemaGenerator(questions: ResponseGeneratorType[]) {
-  console.log("generating schema...")
+  console.log("generating schema...");
   const schema = Object.fromEntries(
     questions.map((question) => {
       const propertyName = question.id;
@@ -38,15 +38,15 @@ export function responseSchemaGenerator(questions: ResponseGeneratorType[]) {
       }
       return [propertyName, propertySchema];
     })
-  )
-  return z.object(schema)
+  );
+  return z.object(schema);
 }
 
 export function initialValuesGenerator(questions: QuestionType[]) {
-  console.log("generating inital values...")
+  console.log("generating inital values...");
   const initialValues: Record<string, string> = {};
   questions.forEach((question) => {
-    initialValues[question.id] = ""
-  })
-  return initialValues
+    initialValues[question.id] = "";
+  });
+  return initialValues;
 }

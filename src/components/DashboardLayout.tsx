@@ -5,9 +5,6 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <main>
       <MainNav />
-      {/* <div className="w-full bg-neutral-100 p-2 lg:hidden ">
-        <SearchInput />
-      </div> */}
       <Container minH="90vh" maxW={"7xl"} mt={16}>
         {children}
       </Container>
@@ -39,30 +36,6 @@ import {
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 
-interface Props {
-  children: React.ReactNode;
-}
-
-const NavLink = (props: Props) => {
-  const { children } = props;
-
-  return (
-    <Box
-      as="a"
-      px={2}
-      py={1}
-      rounded={"md"}
-      _hover={{
-        textDecoration: "none",
-        bg: useColorModeValue("gray.200", "gray.700"),
-      }}
-      href={"#"}
-    >
-      {children}
-    </Box>
-  );
-};
-
 function MainNav() {
   const { data: session } = useSession();
 
@@ -88,37 +61,49 @@ function MainNav() {
                 <Button onClick={toggleColorMode}>
                   {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
                 </Button>
-
-                <Menu>
-                  <MenuButton
-                    as={Button}
-                    rounded={"full"}
-                    variant={"link"}
-                    cursor={"pointer"}
-                    minW={0}
-                  >
-                    <Avatar
-                      size={"sm"}
-                      src={
-                        session?.user.image ??
-                        getGravatar(session?.user.email ?? "")
-                      }
-                    />
-                  </MenuButton>
-                  <MenuList alignItems={"center"}>
-                    <Box px="4">
-                      <Text>Logged in as</Text>
-                      <Text fontWeight={"bold"}>{session?.user.email}</Text>
-                    </Box>
-                    <MenuDivider />
-                    <Link href="/api/auth/signout">
-                      {" "}
-                      <MenuItem color="red.500" fontWeight="bold">
-                        Logout
-                      </MenuItem>{" "}
+                {session?.user ? (
+                  <Menu>
+                    <MenuButton
+                      as={Button}
+                      rounded={"full"}
+                      variant={"link"}
+                      cursor={"pointer"}
+                      minW={0}
+                    >
+                      <Avatar
+                        size={"sm"}
+                        src={
+                          session?.user.image ??
+                          getGravatar(session?.user.email ?? "")
+                        }
+                      />
+                    </MenuButton>
+                    <MenuList alignItems={"center"}>
+                      <Box px="4">
+                        <Text>Logged in as</Text>
+                        <Text fontWeight={"bold"}>{session?.user.email}</Text>
+                      </Box>
+                      <MenuDivider />
+                      <Link href="/dashboard">
+                        <MenuItem fontWeight="bold">Dashboard</MenuItem>
+                      </Link>
+                      <Link href="/api/auth/signout">
+                        <MenuItem color="red.500" fontWeight="bold">
+                          Logout
+                        </MenuItem>
+                      </Link>
+                    </MenuList>
+                  </Menu>
+                ) : (
+                  <div className="flex items-center gap-5">
+                    <Link className="hover:underline" href="/signin">
+                      Signin
                     </Link>
-                  </MenuList>
-                </Menu>
+                    <Link className="hover:underline" href="/signup">
+                      Signup
+                    </Link>
+                  </div>
+                )}
               </Stack>
             </Flex>
           </Flex>

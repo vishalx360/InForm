@@ -1,11 +1,7 @@
 import FormFillLayout from "@/components/FillFormLayout";
 import FormFiller from "@/modules/FillPage/FormFiller";
 import { api } from "@/utils/api";
-import {
-  Box,
-  Heading,
-  Text
-} from "@chakra-ui/react";
+import { Box, Heading, Text } from "@chakra-ui/react";
 import { LucideLoader } from "lucide-react";
 import Error from "next/error";
 import { useRouter } from "next/router";
@@ -37,9 +33,7 @@ function FormFillPage() {
                 Created : {FormData.createdAt.toDateString()}
               </Text>
             </Box>
-            {FormData &&
-              <FormFiller FormData={FormData} />
-            }
+            {FormData && <FormFiller FormData={FormData} />}
           </Box>
         ) : (
           <div className="flex h-screen items-center justify-center">
