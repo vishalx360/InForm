@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 
 function FormFillPage() {
   const router = useRouter();
-  const { data: FormData, error } = api.form.getPublicForm.useQuery(
+  const { data: FormData, error } = api.submission.getPublicForm.useQuery(
     { formId: router.query?.formId as string },
     { enabled: Boolean(router.query.formId) }
   );

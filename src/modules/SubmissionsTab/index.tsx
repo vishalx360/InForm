@@ -8,7 +8,7 @@ export default function SubmissionsTab({ formId }: { formId: string }) {
     data: submissions,
     error,
     isLoading,
-  } = api.form.getSubmissions.useQuery(
+  } = api.submission.getSubmissions.useQuery(
     { formId },
     { enabled: Boolean(formId) }
   );

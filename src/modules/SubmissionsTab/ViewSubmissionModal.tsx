@@ -32,7 +32,7 @@ export default function ViewSubmissionModal({
     data: submission,
     error,
     isLoading,
-  } = api.form.getSubmission.useQuery(
+  } = api.submission.getSubmission.useQuery(
     { submissionId },
     { enabled: Boolean(submissionId && isOpen) }
   );

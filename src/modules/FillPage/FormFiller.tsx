@@ -33,7 +33,7 @@ export default function FormFiller({ FormData }: { FormData: GetForm }) {
   }, [FormData?.questions]);
 
   const toast = useToast();
-  const FillFormMutation = api.form.fill.useMutation({
+  const FillFormMutation = api.submission.newSubmission.useMutation({
     onError(error) {
       console.log(error);
       toast({
