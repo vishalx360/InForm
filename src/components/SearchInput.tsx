@@ -35,7 +35,7 @@ export function SearchInput() {
                   rounded="md"
                   px="5"
                   type="text"
-                  placeholder="Search for a movie"
+                  placeholder="Search for a form"
                   id="query"
                   {...field}
                 />
