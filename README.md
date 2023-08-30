@@ -4,7 +4,7 @@
 
 Demo: [https://inform-app.vercel.app](https://inform-app.vercel.app)
 
-**Solution for Full Stack Developer Assignment | Mercor**
+**Solution for Full Stack Developer Assignment | [mercor](https://mercor.io)**
 
 A web application that allows users to create forms and take surveys.
 
@@ -29,17 +29,13 @@ Want to setup locally ? follow [Setup Instructions](/Setup-Instruction.md)
 5. **Versatile Question Types with Precision Validation:**
    Equip users with a range of question types, each fortified with meticulous validation:
 
-   - **Multiple Choice Queries:**
-     Users can incorporate multiple choice questions, presenting respondents with pre-defined options. In-built validation guarantees accurate and insightful answers.
+   - **Multiple Choice Queries**
 
-   - **Freeform Text Inquiries:**
-     Text-based questions allow respondents to provide open-ended responses. Validation options, like character constraints or mandatory fields, uphold data integrity.
+   - **Text Inquiries**
 
-   - **Email Address Queries:**
-     Integrate email-related questions to capture valid email entries. Validation protocols assure the correctness of submitted email addresses.
+   - **Email Address Queries**
 
-   - **URL Input Queries:**
-     Users can introduce questions requiring URLs, permitting respondents to provide web addresses. Validation protocols ensure well-formed URL submissions.
+   - **URL Input Queries**
 
 ## Screenshots
 
@@ -53,7 +49,7 @@ Want to setup locally ? follow [Setup Instructions](/Setup-Instruction.md)
 
 ## Tech Stack
 
-### Highlights:
+### Highlights
 
 1. Front-End with Next.js: Next.js, a versatile front-end framework, was utilized to create an interactive and seamless user interface. This choice facilitated efficient rendering and enhanced user experience.
 
@@ -71,6 +67,7 @@ Want to setup locally ? follow [Setup Instructions](/Setup-Instruction.md)
 | [Prisma](https://www.prisma.io)                       | A type-safe ORM for TypeScript and Node.js.                                                                                                 |
 | [Nextauth](https://next-auth.js.org)                  | An open source authentication solution for Next.js applications.                                                                            |
 | [Tailwindcss](https://tailwindcss.com/)               | A utility-first CSS framework for building custom designs.                                                                                  |
+| [Chakra-UI](https://chakra-ui.com/)                   | A modern component library for React                                                                                                        |
 | [Vercel](https://vercel.com)                          | A cloud platform for deploying and managing web applications.                                                                               |
 | [Github Actions](https://github.com/features/actions) | A continuous integration and continuous delivery **(CI/CD)** platform that allows you to automate your build, test, and deployment pipeline |
 
