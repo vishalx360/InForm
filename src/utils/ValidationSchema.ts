@@ -27,6 +27,10 @@ export const GetSubmissionSchema = z.object({
   submissionId: z.string(),
 });
 
+export const DeleteSubmissionSchema = z.object({
+  submissionId: z.string(),
+});
+
 export const DeleteFormSchema = z.object({
   formId: z.string(),
 });

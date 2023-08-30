@@ -1,6 +1,6 @@
 import { type RouterOutputs } from "@/utils/api";
 import {
-  Button,
+  HStack,
   Table,
   TableCaption,
   Tbody,
@@ -10,20 +10,29 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import ReactTimeago from "react-timeago";
+import DeleteSubmissionButton from "./DeleteSubmissionBtn";
 import ViewSubmissionModal from "./ViewSubmissionModal";
-import Link from "next/link";
-import { env } from "@/env.mjs";
-export type GetSubmissions = RouterOutputs["form"]["getSubmissions"];
+export type GetSubmissions = RouterOutputs["submission"]["getAll"];
 
-const SubmissionsTable = ({ submissions }: { submissions: GetSubmissions }) => {
+const SubmissionsTable = ({
+  submissions,
+  formId,
+}: {
+  submissions: GetSubmissions;
+  formId: string;
+}) => {
   return (
     <Table variant="simple" colorScheme="teal">
-      <TableCaption> Submissions List</TableCaption>
+      <TableCaption>
+        {" "}
+        Submissions List {submissions.length === 0 && "Empty"}
+      </TableCaption>
       <Thead>
         <Tr>
           <Th>Submitted At</Th>
           <Th>Submission ID</Th>
-          <Th>Action</Th>
+          <Th>View</Th>
+          <Th>Delete</Th>
         </Tr>
       </Thead>
       <Tbody>
@@ -35,6 +44,12 @@ const SubmissionsTable = ({ submissions }: { submissions: GetSubmissions }) => {
             <Td>{submission.id}</Td>
             <Td>
               <ViewSubmissionModal submissionId={submission.id} />
+            </Td>
+            <Td>
+              <DeleteSubmissionButton
+                formId={formId}
+                submissionId={submission.id}
+              />
             </Td>
           </Tr>
         ))}

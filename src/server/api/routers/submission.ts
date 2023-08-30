@@ -5,6 +5,7 @@ import {
   publicProcedure,
 } from "@/server/api/trpc";
 import {
+  DeleteSubmissionSchema,
   FormSubmissionSchema,
   GetFormSchema,
   GetSubmissionSchema,
@@ -26,7 +27,7 @@ export const SubmissionRouter = createTRPCRouter({
         },
       });
     }),
-  getSubmissions: protectedProcedure
+  getAll: protectedProcedure
     .input(GetFormSchema)
     .query(async ({ ctx, input }) => {
       const exist = await ctx.prisma.form.count({
@@ -55,7 +56,7 @@ export const SubmissionRouter = createTRPCRouter({
         },
       });
     }),
-  getSubmission: protectedProcedure
+  get: protectedProcedure
     .input(GetSubmissionSchema)
     .query(async ({ ctx, input }) => {
       const exist = await ctx.prisma.formSubmission.findUnique({
@@ -107,7 +108,43 @@ export const SubmissionRouter = createTRPCRouter({
         },
       });
     }),
-  newSubmission: publicProcedure
+  delete: protectedProcedure
+    .input(DeleteSubmissionSchema)
+    .mutation(async ({ ctx, input }) => {
+      const exist = await ctx.prisma.formSubmission.findUnique({
+        where: {
+          id: input.submissionId,
+        },
+        select: {
+          formId: true,
+        },
+      });
+      if (!exist) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Submission does not exist",
+        });
+      }
+      const formExist = await ctx.prisma.form.count({
+        where: {
+          id: exist.formId,
+          userId: ctx.session.user.id,
+        },
+      });
+      if (!formExist) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Please Check your Inputs",
+        });
+      }
+
+      return ctx.prisma.formSubmission.delete({
+        where: {
+          id: input.submissionId,
+        },
+      });
+    }),
+  create: publicProcedure
     .input(FormSubmissionSchema)
     .mutation(async ({ ctx, input }) => {
       // fetch questions

@@ -8,10 +8,7 @@ export default function SubmissionsTab({ formId }: { formId: string }) {
     data: submissions,
     error,
     isLoading,
-  } = api.submission.getSubmissions.useQuery(
-    { formId },
-    { enabled: Boolean(formId) }
-  );
+  } = api.submission.getAll.useQuery({ formId }, { enabled: Boolean(formId) });
   if (error) {
     return (
       <Error statusCode={error.data?.httpStatus ?? 500} title={error.message} />
@@ -22,7 +19,7 @@ export default function SubmissionsTab({ formId }: { formId: string }) {
   }
   return (
     <div>
-      <SubmissionTable submissions={submissions} />
+      <SubmissionTable formId={formId} submissions={submissions} />
     </div>
   );
 }
