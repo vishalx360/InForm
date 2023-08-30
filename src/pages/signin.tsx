@@ -8,6 +8,7 @@ import {
   Checkbox,
   Flex,
   FormControl,
+  FormHelperText,
   FormLabel,
   Heading,
   Input,
@@ -98,6 +99,23 @@ export default function SimpleCard() {
             >
               <Form className="space-y-4 md:space-y-6">
                 <Stack spacing={4}>
+
+                  <Field name="test-login-btn">
+                    {({ field, meta, form }: FieldProps) => {
+                      return (
+                        <FormControl id="test-login">
+                          <FormHelperText>Want to test the application ? Click on the button below</FormHelperText>
+                          <Button size="sm" mt="2" onClick={() => {
+                            form.setFieldValue("email", "test@test.com").catch(err => { console.log(err) })
+                            form.setFieldValue("password", "test@test.com").catch(err => { console.log(err) })
+                          }}>
+                            Fill Test credentials
+                          </Button>
+                        </FormControl>
+                      )
+                    }}
+                  </Field>
+
                   <Field name="email">
                     {({ field, meta }: FieldProps) => (
                       <FormControl id="email">
