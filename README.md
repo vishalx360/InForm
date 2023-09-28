@@ -1,14 +1,8 @@
 # InForm
 
-![poster](./public/diagrams/poster.png)
+![poster](./public/poster.jpg)
 
 Demo: [https://inform-app.vercel.app](https://inform-app.vercel.app)
-
-Solution Presentation: [View Presentation](https://docs.google.com/presentation/d/1C15_Cc2VfW5qnRye7ALinqeblXhNTtl7mivg3ePtc7E/edit?usp=sharing)
-
-Solution Video Explanation: [Watch Video](https://www.loom.com/share/e652ed11931d4b8c9680c185911e5254)
-
-**Solution for Full Stack Developer Assignment | [mercor](https://mercor.io)**
 
 A web application that allows users to create forms and take surveys.
 

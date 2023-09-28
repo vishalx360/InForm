@@ -1,14 +1,9 @@
-class: center, middle
-
-# Mercor Fullstack Coding Challenge Solution
-
 ## Building a Google Forms Clone: InForm
 
 ## ![InForm Poster](./public/diagrams/poster.png)
 
 ## Introduction
 
-- Excited to present my solution for the Mercor Fullstack Coding Challenge.
 - A web application resembling Google Forms, facilitating form creation, sharing, and response visualization.
 - Utilized React.js and Node.js for frontend and backend development.
 

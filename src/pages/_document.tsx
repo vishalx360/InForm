@@ -10,6 +10,8 @@ export default function Document() {
                 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
                 <link rel="manifest" href="/manifest.json" />
                 <meta name="theme-color" content="#297B7A" />
+                <meta property="og:image" content="https://inform-app.vercel.app/poster.jpg" />
+
             </Head>
             <body>
                 <Main />
